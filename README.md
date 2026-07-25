@@ -1,106 +1,52 @@
-# CONTINUUM — Tacit Knowledge Capture & Transfer Network
+# CONTINUUM: Tacit Knowledge Capture & Transfer Network
 
-**Purpose:** Capture manufacturing tacit knowledge from experienced technicians before retirement.
+Continuum captures tacit manufacturing knowledge from experienced technicians before they retire. Instead of simply recording interviews, its primary innovation is that every extracted heuristic is statistically validated against historical maintenance and sensor data before becoming operational knowledge.
 
-**Core Innovation:** Every extracted heuristic is statistically validated against historical maintenance and sensor data before becoming operational knowledge.
+The system distinguishes real operational knowledge from unsupported folklore.
 
-## Quick Start
+## Architecture & Workflow
 
+```mermaid
+graph TD
+    A[Technician Interview / Incident] -->|Gemini 3 Flash| B(Elicitation Agent)
+    B -->|Grounded Questions| A
+    B -->|Transcript| C(Knowledge Extraction Agent)
+    
+    C -->|Extracts Rule| D{Rule e.g., 'Humidity > 80%'}
+    
+    D --> E(Validation Engine)
+    
+    subgraph Math & Stats [Data Science Core]
+        F[(sensor_history.csv)] --> E
+        G[(maintenance_logs.csv)] --> E
+        E -->|Pandas / SciPy| H[Calculate p-value & chi-square]
+    end
+    
+    H --> I{Statistically Significant? p < 0.05}
+    
+    I -->|Yes| J[Codification Agent]
+    I -->|No| K[Rejected as Folklore]
+    
+    J --> L[(Knowledge Base)]
+    
+    L --> M(Mentor Agent)
+    M -->|Answers| N[Junior Technician]
+    
+    O[Nitrochat / Nitrostack UI] <-->|FastMCP Protocol| E
+```
+
+## Features
+- **Statistical Validation**: Uses Pandas and SciPy to prove rules using Chi-square and p-values.
+- **FastMCP Server**: Exposes the math validation engine to Nitrochat LLMs as an MCP Tool.
+- **Gemini 3 Flash**: Used for intelligent interviewing and transcript extraction.
+- **Langfuse Integration**: Traces and tracks all LLM generations for observability.
+
+## How to run the MCP Server
 ```bash
-cd continuum
+# 1. Install dependencies
 pip install -r requirements.txt
-python -m continuum.main init
-python -m continuum.main demo
+
+# 2. Run the MCP server
+python continuum/mcp_server.py
 ```
-
-## Commands
-
-- `continuum init` — Initialize database and load synthetic data
-- `continuum interview` — Conduct grounded interview with technician
-- `continuum extract` — Extract structured heuristics from transcript
-- `continuum validate` — Validate heuristic against historical data
-- `continuum explain` — Generate evidence and natural-language explanation
-- `continuum codify` — Store validated rule in operational database
-- `continuum mentor` — Get real-time recommendation from validated rules
-- `continuum demo` — Execute complete pipeline end-to-end
-
-## Architecture
-
-**Clean Architecture** — Business logic separated from CLI layer.
-
-```
-continuum/
-├── agents/              # AI agents (elicitation, extraction, validation, etc.)
-├── services/            # Business logic layer
-├── cli/                 # Typer CLI commands
-├── models/              # Pydantic data models
-├── database/            # SQLite schema and initialization
-├── utils/               # Logging and utilities
-├── data/                # Synthetic datasets and outputs
-├── config/              # Configuration (interview queue)
-└── tests/               # Unit tests
-```
-
-## Key Features
-
-### Phase 1: Foundation & Synthetic Data
-- SQLite database schema
-- Pydantic models for employees, maintenance logs, heuristics, validation results
-- Synthetic datasets with embedded statistical patterns
-- Interview queue ordered by experience and retirement date
-
-### Phase 2: Elicitation Agent
-- Grounded interview generation using Claude API
-- Intelligent follow-up questions
-- Transcript storage
-
-### Phase 3: Knowledge Extraction Agent
-- Structured heuristic extraction from transcripts
-- JSON schema with machine, component, failure, trigger, conditions, symptoms, recommended action
-
-### Phase 4: Validation Engine (Core)
-- Statistical validation using Pandas, NumPy, SciPy
-- Support count, conditional probability, Pearson correlation, chi-square p-value
-- Confidence scoring and decision (Accepted/Rejected)
-- Unit tests
-
-### Phase 5: Explainability Engine
-- Natural-language explanations
-- Supporting historical incidents
-- Matplotlib charts saved to disk
-- CLI output explaining acceptance/rejection
-
-### Phase 6: Codification Agent
-- Convert accepted heuristics to operational rules
-- SQLite storage with duplicate detection
-- Static SVG/matplotlib diagram generation
-
-### Phase 7: Mentor Agent
-- Real-time sensor event processing
-- Rule matching and recommendation
-- Confidence scoring and supporting evidence
-
-## Synthetic Data
-
-The system includes synthetic datasets with:
-- **3 machines** (Machine-A, Machine-B, Machine-C)
-- **3 technicians** with varying experience levels
-- **3 interview transcripts** grounded in real incidents
-- **Historical maintenance logs** (2026-01-01 to 2026-07-25)
-- **Sensor history** with embedded patterns
-- **1 real pattern**: Humidity > 80% AND Increasing vibration → Bearing Failure (30+ positive, 60+ negative occurrences)
-- **1 false pattern**: Failures increase every Tuesday (fails statistical validation)
-
-## Testing
-
-```bash
-pytest tests/ -v --cov=continuum
-```
-
-## Development
-
-No external HTTP layer. All output renders via Rich CLI or is saved to disk (matplotlib charts).
-
----
-
-**Built for a 24-hour hackathon. Focused, modular, demonstrable.**
+Then connect Nitrochat to the running stdio process.

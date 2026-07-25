@@ -3,6 +3,7 @@ import json
 from abc import ABC, abstractmethod
 from google import genai
 from dotenv import load_dotenv
+from langfuse.decorators import observe
 
 load_dotenv()
 
@@ -16,6 +17,7 @@ class RealGemini(LLMInterface):
         self.model_name = model_name
         self.client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
+    @observe(as_type="generation")
     def generate_response(self, prompt: str, system_instruction: str = "") -> str:
         # Note: The google-genai library uses the 'gemini-3-flash' model family.
         # We will pass the model_name provided.
