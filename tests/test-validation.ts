@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { ValidationTools } from './src/modules/validation/validation.tools.js';
+import { ValidationTools } from '../src/modules/validation/validation.tools.js';
 
 async function runTest() {
   console.log('Initializing Validation Engine...');
@@ -24,10 +24,10 @@ async function runTest() {
 
   try {
     const result = await tools.validateHeuristic(testInput, mockContext);
-    console.log('\n✅ Validation Result:');
+    console.log('\nValidation Result:');
     console.log(JSON.stringify(result, null, 2));
   } catch (error) {
-    console.error('\n❌ Test Failed:', error);
+    console.error('\nTest Failed:', error);
   }
 }
 
