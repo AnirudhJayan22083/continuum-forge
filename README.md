@@ -120,19 +120,24 @@ This project is one such MCP server. Learn more about building and shipping MCP 
 
 ## Live Demo & Testing UI
 
-**Live MCP Endpoint:** `https://continuum-for-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/mcp`
+- **Hosted NitroChat Web UI:** https://nitrochat-con-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/embed
+- **Live MCP Endpoint:** `https://continuum-for-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/mcp`
 
-Point your MCP client at the endpoint above to try it instantly.
+You can test the interactive assistant directly in your browser using the Hosted NitroChat Web UI link above.
 
 ## How Judges & AI Clients Test Your Chat & UI
 
-1. **Connecting MCP Clients (NitroChat / NitroStudio / Claude Desktop / Cursor)**:
-   Judges connect their MCP client directly to `https://continuum-for-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/mcp`. Opening `/mcp` in a standard browser streams raw Server-Sent Events (SSE), confirming the backend is live and operational.
+1. **Direct Web Browser Testing (NitroChat Web UI)**:
+   Judges can open the hosted chat interface directly at:
+   `https://nitrochat-con-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/embed`
 
-2. **Interactive MCP Widgets**:
+2. **Connecting External MCP Clients (NitroStudio / Claude Desktop / Cursor)**:
+   Judges can connect any MCP-compatible client directly to `https://continuum-for-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/mcp`. Opening `/mcp` in a standard browser streams raw Server-Sent Events (SSE), confirming the backend is live and operational.
+
+3. **Interactive MCP Widgets**:
    When the AI client calls tools like `coach_apprentice` or `codify_transcript`, NitroStack automatically fetches and renders custom interactive Next.js frontend widgets (`Rule AST Visualizer`, `Emergency Guidance Card`, `Database Visualizer`) directly inside the chat interface.
 
-3. **Standalone Industrial Web Dashboard**:
+4. **Standalone Industrial Web Dashboard**:
    To test the standalone dashboard locally, run `npm start` and visit `http://localhost:3001` to access the full interactive interface with pipeline step indicators and trigger buttons.
 
 ## Getting Started
