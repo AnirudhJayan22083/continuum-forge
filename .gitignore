@@ -1,60 +1,33 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
+node_modules/
+src/widgets/node_modules/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Virtual environments
-venv/
-.venv/
-ENV/
-env/
-data_*_test/
-
-
-# IDE
-.vscode/
+src/widgets/.next/
+src/widgets/out/
+.env
+.env.local
+.env.*.local
 .idea/
+.vscode/
 *.swp
 *.swo
 *~
-
-# OS
 .DS_Store
 Thumbs.db
-
-# Logs
-logs/
 *.log
 npm-debug.log*
-
-# Environment
-.env
-.env.local
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
-
-# Data and outputs
-data/charts/
-data/*.csv
-data/*.json
-config/interview_queue.json
+yarn-debug.log*
+yarn-error.log*
+pids/
+*.pid
+*.seed
+*.pid.lock
+coverage/
+.nyc_output/
+uploads/
+*.tsbuildinfo
+.npm/
+.eslintcache
+*.pem
+*.key
+tokens.json
+.git/

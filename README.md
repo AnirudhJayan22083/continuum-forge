@@ -1,52 +1,49 @@
-# CONTINUUM: Tacit Knowledge Capture & Transfer Network
+# NitroStack Starter Template
 
-Continuum captures tacit manufacturing knowledge from experienced technicians before they retire. Instead of simply recording interviews, its primary innovation is that every extracted heuristic is statistically validated against historical maintenance and sensor data before becoming operational knowledge.
+Minimal template for learning NitroStack fundamentals with a calculator-focused
+MCP server and basic widgets.
 
-The system distinguishes real operational knowledge from unsupported folklore.
+## What This Template Includes
 
-## Architecture & Workflow
+- `calculator` module with tools, resources, and prompts
+- TypeScript + Zod validation setup
+- Widget-ready project structure
+- Production-friendly npm scripts
 
-```mermaid
-graph TD
-    A[Technician Interview / Incident] -->|Gemini 3 Flash| B(Elicitation Agent)
-    B -->|Grounded Questions| A
-    B -->|Transcript| C(Knowledge Extraction Agent)
-    
-    C -->|Extracts Rule| D{Rule e.g., 'Humidity > 80%'}
-    
-    D --> E(Validation Engine)
-    
-    subgraph Math & Stats [Data Science Core]
-        F[(sensor_history.csv)] --> E
-        G[(maintenance_logs.csv)] --> E
-        E -->|Pandas / SciPy| H[Calculate p-value & chi-square]
-    end
-    
-    H --> I{Statistically Significant? p < 0.05}
-    
-    I -->|Yes| J[Codification Agent]
-    I -->|No| K[Rejected as Folklore]
-    
-    J --> L[(Knowledge Base)]
-    
-    L --> M(Mentor Agent)
-    M -->|Answers| N[Junior Technician]
-    
-    O[Nitrochat / Nitrostack UI] <-->|FastMCP Protocol| E
-```
+## Quick Start
 
-## Features
-- **Statistical Validation**: Uses Pandas and SciPy to prove rules using Chi-square and p-values.
-- **FastMCP Server**: Exposes the math validation engine to Nitrochat LLMs as an MCP Tool.
-- **Gemini 3 Flash**: Used for intelligent interviewing and transcript extraction.
-- **Langfuse Integration**: Traces and tracks all LLM generations for observability.
-
-## How to run the MCP Server
 ```bash
-# 1. Install dependencies
-pip install -r requirements.txt
-
-# 2. Run the MCP server
-python continuum/mcp_server.py
+npx @nitrostack/cli init my-server --template typescript-starter
+cd my-server
+npm run dev
 ```
-Then connect Nitrochat to the running stdio process.
+
+## Common Commands
+
+```bash
+npm run dev
+npm run build
+npm start
+```
+
+## NitroStudio
+
+NitroStudio is the recommended way to test and debug this template during
+development.
+
+- Download: <https://nitrostack.ai/studio>
+- Studio: <https://nitrostack.ai/studio>
+
+## Links
+
+- Docs: <https://docs.nitrostack.ai>
+- Templates docs: <https://docs.nitrostack.ai/templates/01-starter-template>
+- Main repository: <https://github.com/nitrocloudofficial/nitrostack>
+
+## Community
+
+- Discord: <https://discord.gg/uVWey6UhuD>
+- X: <https://x.com/nitrostackai>
+- YouTube: <https://www.youtube.com/@nitrostackai>
+- LinkedIn: <https://linkedin.com/company/nitrostack-ai/>
+- GitHub: <https://github.com/nitrostackai>
