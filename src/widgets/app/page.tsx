@@ -20,7 +20,7 @@ export default function ContinuumDashboard() {
       id: '1',
       sender: 'assistant',
       text: '👋 Welcome to **Continuum Forge** — Tacit Knowledge Capture & Transfer Engine.\n\nI can help you codify expert rules of thumb, validate them against your Neon PostgreSQL database, and provide instant coaching to junior operators.',
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      timestamp: '10:00 AM'
     }
   ]);
   const [inputPrompt, setInputPrompt] = useState('');
