@@ -7,7 +7,7 @@ export class ExplainabilityTools {
     name: 'generate_explanation',
     description: 'Generates human-readable reasoning for why a specific heuristic or rule passed or failed validation.',
     inputSchema: z.object({
-      rule: z.any().describe('The Structured JSON AST rule being explained'),
+      rule: z.string().describe('The Structured JSON AST rule being explained (as a JSON string)'),
       validationResult: z.boolean().describe('Whether the rule passed or failed statistical validation')
     }),
   })

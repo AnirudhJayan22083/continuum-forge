@@ -8,7 +8,7 @@ export class ValidationTools {
     description: 'Validates a manufacturing heuristic mathematically against sensor datasets. Exposes the rule and data to the Orchestrator LLM to compute statistical significance.',
     inputSchema: z.object({
       heuristicId: z.string().optional().describe('The ID of the heuristic'),
-      rule: z.any().describe('The Structured JSON AST rule to validate'),
+      rule: z.string().describe('The Structured JSON AST rule to validate (as a JSON string)'),
       datasetUri: z.string().optional().describe('URI to the sensor logs')
     }),
   })

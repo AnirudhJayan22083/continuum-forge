@@ -8,7 +8,7 @@ export class MentorTools {
     description: 'Provides guidance to junior operators based on codified manufacturing rules.',
     inputSchema: z.object({
       scenario: z.string().describe('The situation the junior operator is facing'),
-      applicableRule: z.any().describe('The codified Structured JSON AST rule that applies here')
+      applicableRule: z.string().describe('The codified Structured JSON AST rule (as a JSON string) that applies here')
     }),
   })
   async coachApprentice(input: any, ctx: ExecutionContext) {
