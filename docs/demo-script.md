@@ -1,11 +1,11 @@
-# 3-Minute Demo Video Script & Walkthrough
+# 🎥 3-Minute Demo Video Script & Walkthrough
 
-Project: Continuum Forge — Tacit Knowledge Capture & Transfer Engine  
-Target Duration: Exactly 3:00 Minutes (180 Seconds)
+> **Project:** Continuum Forge — Tacit Knowledge Capture & Transfer Engine  
+> **Target Duration:** Exactly 3:00 Minutes (180 Seconds)
 
 ---
 
-## Video Timestamp Breakdown
+## ⏱️ Video Timestamp Breakdown
 
 | Timestamp | Segment | Visual On-Screen | Speaker Script |
 | :--- | :--- | :--- | :--- |
@@ -17,7 +17,7 @@ Target Duration: Exactly 3:00 Minutes (180 Seconds)
 
 ---
 
-## Detailed Audio Voiceover Script
+## 📝 Detailed Audio Voiceover Script
 
 ### [0:00 - 0:30] Problem Statement
 > "Hello everyone. Today, manufacturing plants face a massive crisis: tacit knowledge loss. Over 80% of critical operational rules of thumb reside exclusively in the minds of senior technicians. When a lead tech retires, their unwritten expertise vanishes—leading to costly motor burnouts and dangerous plant fires."

@@ -54,7 +54,7 @@ export default function RuleAstWidget() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
         <div>
           <div style={{ fontSize: '13px', fontWeight: 600, color: '#60a5fa' }}>
-            Structured JSON AST Rule
+            ⚡ Structured JSON AST Rule
           </div>
           <div style={{ fontSize: '11px', color: '#71717a' }}>Grounded Rule Logic</div>
         </div>

@@ -32,7 +32,7 @@ export default function MentorGuidanceWidget() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
         <div>
           <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#fca5a5', letterSpacing: '-0.01em' }}>
-            CRITICAL OPERATIONAL GUIDANCE
+            🚨 CRITICAL OPERATIONAL GUIDANCE
           </h3>
           <span style={{ fontSize: '11px', color: '#f87171', fontWeight: 500 }}>Immediate Senior Mentor Protocol</span>
         </div>
@@ -60,7 +60,7 @@ export default function MentorGuidanceWidget() {
         border: '1px solid #27272a'
       }}>
         <div style={{ fontSize: '11px', fontWeight: 700, color: '#fbbf24', textTransform: 'uppercase', marginBottom: '6px' }}>
-          DETECTED TELEMETRY BREACH
+          ⚠️ DETECTED TELEMETRY BREACH
         </div>
         <div style={{ fontSize: '12px', lineHeight: '1.5', fontFamily: "'JetBrains Mono', monospace", color: '#fca5a5' }}>
           {cleanName(data?.scenario || 'Vibration: 5.0 mm/s (EXCEEDS 4.5) | Temp: 95C (EXCEEDS 90C)')}

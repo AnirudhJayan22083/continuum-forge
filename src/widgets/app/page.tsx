@@ -14,7 +14,6 @@ interface Message {
   }>;
 }
 
-// Clean helper to format text: converts underscores to spaces, formats bold text cleanly
 function cleanText(text: string) {
   if (!text) return '';
   return text.replace(/_/g, ' ');
@@ -25,7 +24,7 @@ function formatMarkdownText(text: string) {
   return lines.map((line, lIdx) => {
     const cleanedLine = cleanText(line);
     
-    if (cleanedLine.startsWith('CRITICAL ALERT') || cleanedLine.startsWith('IMMEDIATE ACTION')) {
+    if (cleanedLine.startsWith('🚨 **') || cleanedLine.startsWith('🚨 ') || cleanedLine.startsWith('CRITICAL ALERT')) {
       return (
         <div key={lIdx} style={{ color: '#ef4444', fontWeight: 700, fontSize: '14px', marginBottom: '6px' }}>
           {cleanedLine.replace(/[\*]/g, '')}
@@ -54,7 +53,7 @@ export default function ContinuumDashboard() {
     {
       id: '1',
       sender: 'assistant',
-      text: 'Welcome to **Continuum Forge** — Tacit Knowledge Capture & Transfer Engine.\n\nI can help you codify expert rules of thumb into Structured JSON ASTs, validate them against your Neon PostgreSQL sensor telemetry, and provide instant coaching to junior operators.',
+      text: '👋 Welcome to **Continuum Forge** — Tacit Knowledge Capture & Transfer Engine.\n\nI can help you codify expert rules of thumb into Structured JSON ASTs, validate them against your Neon PostgreSQL sensor telemetry, and provide instant coaching to junior operators.',
       timestamp: '10:00 AM'
     }
   ]);
@@ -131,13 +130,13 @@ export default function ContinuumDashboard() {
       const assistantMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: 'assistant',
-        text: 'MASTER ORCHESTRATOR PIPELINE - PUMP B CRITICAL ALERT\n\n' +
-          'Codification & Rule Generation: Expert heuristic codified into Structured JSON AST.\n' +
-          'Database Validation: Evaluated 20 historical sensor readings on MACHINE B. No prior incidents exceeded both thresholds simultaneously.\n\n' +
-          'IMMEDIATE ACTION FOR JUNIOR TECH:\n' +
-          '• ACTIVATE EMERGENCY SHUTDOWN — Kill power to Pump B immediately.\n' +
-          '• NOTIFY SHIFT LEAD — Report incident.\n' +
-          '• LOG READINGS — Vibration: 5.0 mm/s, Temp: 95C.',
+        text: '🚨 **MASTER ORCHESTRATOR PIPELINE - PUMP B CRITICAL ALERT**\n\n' +
+          '✅ **Codification & Rule Generation**: Expert heuristic codified into Structured JSON AST.\n' +
+          '📊 **Database Validation**: Evaluated 20 historical sensor readings on `MACHINE B`. No prior incidents exceeded both thresholds simultaneously.\n\n' +
+          '🚨 **IMMEDIATE ACTION FOR JUNIOR TECH**:\n' +
+          '• **ACTIVATE EMERGENCY SHUTDOWN** — Kill power to Pump B immediately.\n' +
+          '• **NOTIFY SHIFT LEAD** — Report incident.\n' +
+          '• **LOG READINGS** — Vibration: 5.0 mm/s, Temp: 95C.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         widgets: [
           {
@@ -188,7 +187,7 @@ export default function ContinuumDashboard() {
         padding: '20px 16px',
         boxSizing: 'border-box'
       }}>
-        {/* Brand */}
+        {/* Brand Header without Emoji */}
         <div style={{ padding: '0 8px', marginBottom: '24px' }}>
           <div style={{ fontSize: '15px', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.01em' }}>
             CONTINUUM FORGE
@@ -266,7 +265,7 @@ export default function ContinuumDashboard() {
               border: '1px solid #27272a'
             }}
           >
-            <span>Langfuse Traces</span>
+            <span>📊 Langfuse Traces</span>
             <span style={{ fontSize: '11px' }}>↗</span>
           </a>
         </div>
@@ -280,7 +279,7 @@ export default function ContinuumDashboard() {
         background: '#09090b',
         position: 'relative'
       }}>
-        {/* Top Header */}
+        {/* Top Header - Kept Clean without Emoji */}
         <div style={{
           height: '56px',
           borderBottom: '1px solid #27272a',
@@ -382,7 +381,7 @@ export default function ContinuumDashboard() {
                         <div>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                             <div style={{ fontSize: '13px', fontWeight: 600, color: '#60a5fa' }}>
-                              Structured JSON AST Rule
+                              ⚡ Structured JSON AST Rule
                             </div>
                             <span style={{ background: '#ef4444', color: '#fff', fontSize: '10px', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
                               {w.data.action}
@@ -402,7 +401,7 @@ export default function ContinuumDashboard() {
                       {w.type === 'mentor' && (
                         <div>
                           <div style={{ fontSize: '13px', fontWeight: 600, color: '#fca5a5', marginBottom: '8px' }}>
-                            Critical Operational Guidance
+                            🚨 Critical Operational Guidance
                           </div>
                           <div style={{ background: '#7f1d1d', padding: '12px', borderRadius: '8px', fontSize: '12px', color: '#ffffff' }}>
                             <div style={{ fontSize: '11px', opacity: 0.9, marginBottom: '4px' }}>{cleanText(w.data.scenario)}</div>
@@ -421,7 +420,7 @@ export default function ContinuumDashboard() {
 
           {isProcessing && (
             <div style={{ color: '#60a5fa', fontSize: '12px', fontStyle: 'italic', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              Executing master orchestrator pipeline...
+              <span>⚡</span> Executing master orchestrator pipeline...
             </div>
           )}
         </div>
@@ -482,7 +481,7 @@ export default function ContinuumDashboard() {
       }}>
         <div>
           <div style={{ fontSize: '11px', fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '10px' }}>
-            Active Tacit Rule
+            📜 Active Tacit Rule
           </div>
           <div style={{
             background: '#18181b',
@@ -494,13 +493,13 @@ export default function ContinuumDashboard() {
           }}>
             <div style={{ fontWeight: 700, color: '#60a5fa', marginBottom: '4px' }}>Rule Bearing 001</div>
             <div style={{ color: '#a1a1aa', fontSize: '11px', lineHeight: '1.4' }}>IF Vibration &gt; 4.5 mm/s AND Temp &gt; 90C THEN Shutdown</div>
-            <div style={{ marginTop: '8px', color: '#10b981', fontSize: '10px', fontWeight: 600 }}>Grounded & Validated</div>
+            <div style={{ marginTop: '8px', color: '#10b981', fontSize: '10px', fontWeight: 600 }}>● Grounded & Validated</div>
           </div>
         </div>
 
         <div>
           <div style={{ fontSize: '11px', fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '10px' }}>
-            Neon DB Telemetry
+            🗄️ Neon DB Telemetry
           </div>
           <div style={{
             background: '#18181b',
@@ -533,7 +532,7 @@ export default function ContinuumDashboard() {
 
         <div>
           <div style={{ fontSize: '11px', fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '10px' }}>
-            Server Transports
+            ⚡ Server Transports
           </div>
           <div style={{
             background: '#18181b',

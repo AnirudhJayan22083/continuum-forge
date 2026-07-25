@@ -1,24 +1,28 @@
-# Continuum Forge
+# ⚡ Continuum Forge
 
-**Tacit Knowledge Capture, Codification & Transfer Engine for Manufacturing Industry 4.0**  
-Built with NitroStack MCP Framework, Neon PostgreSQL Telemetry, and Langfuse Observability.
+> **Tacit Knowledge Capture, Codification & Transfer Engine for Manufacturing Industry 4.0**  
+> Built with **NitroStack MCP Framework**, **Neon PostgreSQL Telemetry**, and **Langfuse Observability**.
 
----
-
-## Executive Summary & Problem Statement
-
-In industrial manufacturing, over 80% of critical operational rules of thumb reside exclusively in the heads of senior technicians. When a veteran technician retires or leaves a shift, decades of unwritten safety knowledge and equipment diagnostics are lost.
-
-Continuum Forge solves this industry bottleneck by using an Agentic Model Context Protocol (MCP) Pipeline that:
-1. Elicits unwritten tacit knowledge through interview transcripts.
-2. Codifies human heuristics into machine-readable Structured JSON AST (Abstract Syntax Tree) Rules.
-3. Validates rules statistically against real-time and historical Neon PostgreSQL sensor telemetry.
-4. Delivers real-time coaching to junior operators with dynamic verbosity settings (`short` for immediate emergency fixes vs `detailed` for training).
-5. Tracks every tool call in Langfuse for enterprise-grade transparency and zero AI hallucination.
+[![NitroStack Live](https://img.shields.io/badge/NitroStack-Live%20Deployment-0070f3?style=for-the-badge&logo=vercel)](https://cloud.nitrostack.ai)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+[![Langfuse Telemetry](https://img.shields.io/badge/Langfuse-Telemetry%20Active-ff69b4?style=for-the-badge)](https://jp.cloud.langfuse.com)
 
 ---
 
-## System Architecture
+## 📌 Executive Summary & Problem Statement
+
+In industrial manufacturing, over **80% of critical operational rules of thumb reside exclusively in the heads of senior technicians**. When a veteran technician retires or leaves a shift, decades of unwritten safety knowledge and equipment diagnostics are permanently lost.
+
+**Continuum Forge** solves this critical industry bottleneck by using an **Agentic Model Context Protocol (MCP) Pipeline** that:
+1. **Elicits** unwritten tacit knowledge through interview transcripts.
+2. **Codifies** human heuristics into machine-readable **Structured JSON AST (Abstract Syntax Tree) Rules**.
+3. **Validates** rules statistically against real-time & historical **Neon PostgreSQL sensor telemetry**.
+4. **Delivers Real-Time Coaching** to junior operators with dynamic verbosity settings (`short` for immediate emergency fixes vs `detailed` for training).
+5. **Tracks Every Tool Call** in **Langfuse** for enterprise-grade transparency and zero AI hallucination.
+
+---
+
+## 📐 System Architecture
 
 ```mermaid
 flowchart TD
@@ -40,10 +44,10 @@ flowchart TD
 
 ---
 
-## Key Features & Architectural Innovations
+## 🚀 Key Features & Architectural Innovations
 
 ### 1. Structured JSON AST Rule Codification
-Human heuristics like "When vibration is over 4.5 mm/s and temperature is above 90C, shut it down to prevent a fire" are converted into deterministic JSON ASTs:
+Human heuristics like *"When vibration is over 4.5 mm/s and temperature is above 90°C, shut it down to prevent a fire"* are converted into deterministic JSON ASTs:
 ```json
 {
   "operator": "AND",
@@ -59,26 +63,26 @@ Human heuristics like "When vibration is over 4.5 mm/s and temperature is above 
 Queries historical machine telemetry (`sensor readings` table on `MACHINE B`) to verify whether rule conditions ever triggered simultaneously in historical logs.
 
 ### 3. Flexible Verbosity Mode (Short vs Detailed)
-- `verbosity: "short"`: Provides strictly the immediate emergency action (`ACTIVATE EMERGENCY SHUTDOWN PUMP B IMMEDIATELY`).
-- `verbosity: "detailed"`: Provides a full senior mentor coaching session explaining root cause and preventive measures.
+- **`verbosity: "short"`**: Provides strictly the immediate emergency action (`ACTIVATE EMERGENCY SHUTDOWN PUMP B IMMEDIATELY`).
+- **`verbosity: "detailed"`**: Provides a full senior mentor coaching session explaining root cause and preventive measures.
 
 ### 4. End-to-End Telemetry with Langfuse
-Every MCP tool execution is wrapped with `trackToolExecution()`. Input parameters, database query rows, validation outputs, and execution latencies are logged in real-time to Langfuse Cloud.
+Every MCP tool execution is wrapped with `trackToolExecution()`. Input parameters, database query rows, validation outputs, and execution latencies are logged in real-time to **Langfuse Cloud**.
 
 ### 5. Interactive Web Dashboard & Rendered MCP Widgets
 Includes a standalone Web Dashboard (`http://localhost:3001`) with:
-- Rule AST Visualizer Widget
-- Mentor Guidance Card Widget
-- Database Table Visualizer Widget
+- `Rule AST Visualizer Widget`
+- `Mentor Guidance Card Widget`
+- `Database Table Visualizer Widget`
 
 ---
 
-## Installation & Environment Setup
+## 🛠️ Installation & Environment Setup
 
 ### Prerequisites
-- Node.js: v18.x or v20.x
-- npm: v9.x or higher
-- NitroStack CLI: Installed globally (`npm install -g @nitrostack/cli`)
+- **Node.js**: `v18.x` or `v20.x`
+- **npm**: `v9.x` or higher
+- **NitroStack CLI**: Installed globally (`npm install -g @nitrostack/cli`)
 
 ### Environment Variables Setup
 Create a `.env` file in the root directory:
@@ -120,22 +124,16 @@ npm start
 
 ---
 
-## Usage & Running the Master Orchestrator Pipeline
+## 💻 Usage & Running the Master Orchestrator Pipeline
 
 ### Running via NitroChat / NitroStudio
 Connect your MCP client to:
-- Streamable MCP HTTP Endpoint: `http://localhost:3000/mcp`
-- Legacy SSE Endpoint: `http://localhost:3000/sse`
-
-### Sample Test Prompt (Pump B Motor Burnout Scenario)
-
-> "Run the master orchestrator pipeline for the Pump B motor burnout scenario. The lead tech's rule is: 'When vibration is over 4.5 mm/s and temperature is above 90C, shutdown immediately.' Validate this against the database.
->
-> A junior tech just reported seeing 5.0 mm/s and 95C right now. I am in a huge rush—skip the detailed explanation and use your short verbosity setting to give me just the immediate fix."
+- **Streamable MCP HTTP Endpoint:** `http://localhost:3000/mcp`
+- **Legacy SSE Endpoint:** `http://localhost:3000/sse`
 
 ---
 
-## Documentation Index
+## 📊 Documentation Index
 
 Detailed documentation files are available in the `docs/` directory:
 - [Demo Script](docs/demo-script.md) — 3-minute video presentation transcript and breakdown
