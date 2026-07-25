@@ -101,11 +101,21 @@ def initialize() -> None:
     for employee in employees:
         db.insert_employee(employee)
 
-    for raw_log in logs_raw:
-        db.insert_maintenance_log(_log_dict_to_model(raw_log))
+    log_models = [_log_dict_to_model(r) for r in logs_raw]
+    if hasattr(db, "insert_maintenance_logs_batch"):
+        db.insert_maintenance_logs_batch(log_models)
+    else:
+        for log_m in log_models:
+            db.insert_maintenance_log(log_m)
 
-    for raw_reading in readings_raw:
-        db.insert_sensor_reading(_reading_dict_to_model(raw_reading))
+
+    sensor_models = [_reading_dict_to_model(r) for r in readings_raw]
+    if hasattr(db, "insert_sensor_readings_batch"):
+        db.insert_sensor_readings_batch(sensor_models)
+    else:
+        for reading in sensor_models:
+            db.insert_sensor_reading(reading)
+
 
     logger.info(
         "Loaded %d employees, %d maintenance logs, %d sensor readings into the database",

@@ -22,8 +22,11 @@ wheels/
 
 # Virtual environments
 venv/
+.venv/
 ENV/
 env/
+data_*_test/
+
 
 # IDE
 .vscode/

@@ -218,7 +218,9 @@ def main() -> int:
     print("=" * 60)
 
     try:
+        cleanup()
         test_codify_accepted_heuristic()
+
         cleanup()
         test_duplicate_detection()
         cleanup()

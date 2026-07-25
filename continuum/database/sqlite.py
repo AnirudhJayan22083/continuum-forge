@@ -2,9 +2,14 @@
 
 import json
 import logging
+import os
 import sqlite3
 from pathlib import Path
 from typing import List, Optional
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from models.employee import Employee
 from models.heuristic import Heuristic, HeuristicCondition
@@ -16,17 +21,32 @@ logger = logging.getLogger(__name__)
 
 
 class Database:
-    """SQLite database manager for CONTINUUM."""
+    """Database manager for CONTINUUM (supports SQLite and Neon PostgreSQL)."""
 
-    def __init__(self, db_path: str = "data/continuum.db"):
-        """Initialize database connection.
+    def __new__(cls, db_path: str = "data/continuum.db", db_url: Optional[str] = None):
+        url = db_url or os.getenv("DATABASE_URL") or os.getenv("NEON_DATABASE_URL")
+        if db_url or (url and db_path == "data/continuum.db"):
+            from .postgres import PostgresDatabase
+            logger.info("Auto-selecting Neon PostgreSQL database")
+            instance = super().__new__(PostgresDatabase)
+            PostgresDatabase.__init__(instance, db_url=url)
+            return instance
+        return super().__new__(cls)
+
+
+    def __init__(self, db_path: str = "data/continuum.db", db_url: Optional[str] = None):
+        """Initialize SQLite database connection.
 
         Args:
             db_path: Path to SQLite database file
+            db_url: Optional URL (if provided, PostgresDatabase is returned via __new__)
         """
+        if hasattr(self, "db_path"):
+            return
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.connection = None
+
 
     def __enter__(self) -> "Database":
         self.connect()

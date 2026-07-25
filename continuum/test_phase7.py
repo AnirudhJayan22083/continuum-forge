@@ -252,7 +252,9 @@ def main() -> int:
     print("=" * 60)
 
     try:
+        cleanup()
         test_matching_reading_produces_recommendation()
+
         cleanup()
         test_non_matching_reading_returns_empty()
         cleanup()
