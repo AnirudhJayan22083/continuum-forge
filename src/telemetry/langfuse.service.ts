@@ -33,7 +33,6 @@ export async function trackToolExecution<T>(
     return result;
   } catch (error: any) {
     trace.update({
-      level: 'ERROR',
       metadata: { error: error.message }
     });
     throw error;
