@@ -43,10 +43,21 @@ export class DatasetTools {
 
     try {
       const result = await this.pool.query(input.query);
+      const finalRows = result.rows.slice(0, 100);
       return {
         success: true,
         rowCount: result.rowCount,
-        rows: result.rows.slice(0, 100) // Hard limit to 100 rows to prevent massive payloads
+        rows: finalRows, // Hard limit to 100 rows to prevent massive payloads
+        ui: {
+          widget: {
+            uri: '/database-visualizer',
+            data: {
+              query: input.query,
+              columns: result.fields.map((f: any) => f.name),
+              rows: finalRows
+            }
+          }
+        }
       };
     } catch (e: any) {
       ctx.logger.error(`Database Query Failed: ${e.message}`);

@@ -41,6 +41,13 @@
         }
       ],
       "tags": ["calculator", "math", "result"]
+    },
+    {
+      "uri": "/database-visualizer",
+      "name": "Database Visualizer",
+      "description": "Displays the result of a database query in a structured table",
+      "examples": [],
+      "tags": ["database", "sql", "data", "table"]
     }
   ],
   "generatedAt": "2025-01-01T00:00:00.000Z"
