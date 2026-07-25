@@ -14,6 +14,36 @@ interface Message {
   }>;
 }
 
+// Simple helper to format Markdown bold and bullet formatting nicely
+function formatMarkdownText(text: string) {
+  const lines = text.split('\n');
+  return lines.map((line, lIdx) => {
+    // Check for headers
+    if (line.startsWith('🚨 **') || line.startsWith('🚨 ')) {
+      return (
+        <div key={lIdx} style={{ color: '#ef4444', fontWeight: 700, fontSize: '15px', marginBottom: '8px' }}>
+          {line.replace(/[\*]/g, '')}
+        </div>
+      );
+    }
+
+    // Process bold tags inside lines
+    const parts = line.split(/(\*\*.*?\*\*)/g);
+    const lineContent = parts.map((part, pIdx) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={pIdx} style={{ color: '#ffffff', fontWeight: 600 }}>{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
+
+    return (
+      <div key={lIdx} style={{ marginBottom: line.trim() === '' ? '12px' : '4px' }}>
+        {lineContent}
+      </div>
+    );
+  });
+}
+
 export default function ContinuumDashboard() {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -46,7 +76,6 @@ export default function ContinuumDashboard() {
     setInputPrompt('');
     setIsProcessing(true);
 
-    // Simulate real-time MCP Master Orchestrator Pipeline execution with Widgets
     setTimeout(() => {
       const assistantMsg: Message = {
         id: (Date.now() + 1).toString(),
@@ -84,7 +113,7 @@ export default function ContinuumDashboard() {
       };
       setMessages((prev) => [...prev, assistantMsg]);
       setIsProcessing(false);
-    }, 1200);
+    }, 1000);
   };
 
   return (
@@ -92,101 +121,97 @@ export default function ContinuumDashboard() {
       display: 'flex',
       height: '100vh',
       width: '100vw',
-      background: 'linear-gradient(135deg, #090d16 0%, #0f172a 100%)',
-      color: '#f8fafc',
-      fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
+      background: '#09090b',
+      color: '#f4f4f5',
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
       overflow: 'hidden'
     }}>
-      {/* LEFT SIDEBAR: Pipeline & System Navigation */}
+      {/* LEFT SIDEBAR: Linear/Vercel Style Minimal Navigation */}
       <div style={{
-        width: '300px',
-        background: 'rgba(15, 23, 42, 0.75)',
-        backdropFilter: 'blur(16px)',
-        borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+        width: '260px',
+        background: '#121215',
+        borderRight: '1px solid #27272a',
         display: 'flex',
         flexDirection: 'column',
-        padding: '24px',
+        padding: '20px 16px',
         boxSizing: 'border-box'
       }}>
-        {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+        {/* Brand */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0 8px', marginBottom: '24px' }}>
           <div style={{
-            width: '42px',
-            height: '42px',
-            borderRadius: '12px',
-            background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+            width: '32px',
+            height: '32px',
+            borderRadius: '8px',
+            background: 'linear-gradient(135deg, #3b82f6, #6366f1)',
             display: 'flex',
             alignItems: 'center',
             justify: 'center',
             fontWeight: 800,
-            fontSize: '22px',
-            boxShadow: '0 8px 16px rgba(59, 130, 246, 0.3)'
+            fontSize: '16px',
+            color: '#ffffff'
           }}>
             ⚡
           </div>
           <div>
-            <h1 style={{ margin: 0, fontSize: '17px', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.01em' }}>
               CONTINUUM FORGE
-            </h1>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', display: 'inline-block', boxShadow: '0 0 8px #10b981' }}></span>
-              <span style={{ fontSize: '11px', color: '#34d399', fontWeight: 600 }}>NitroStack MCP Live</span>
+            </div>
+            <div style={{ fontSize: '11px', color: '#10b981', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }}></span>
+              NitroStack Live
             </div>
           </div>
         </div>
 
-        {/* Pipeline Steps Tracker */}
-        <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '14px' }}>
-          7-Step Knowledge Pipeline
+        {/* Pipeline Tracker */}
+        <div style={{ fontSize: '11px', fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.05em', padding: '0 8px', marginBottom: '10px' }}>
+          Pipeline Overview
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1, overflowY: 'auto' }}>
           {[
-            { step: '1', title: 'Grounding Interview', status: 'ACTIVE' },
-            { step: '2', title: 'Codification (JSON AST)', status: 'ACTIVE' },
-            { step: '3', title: 'Parameter Extraction', status: 'ACTIVE' },
-            { step: '4', title: 'Database Validation', status: 'ACTIVE' },
-            { step: '5', title: 'Explainability Engine', status: 'ACTIVE' },
-            { step: '6', title: 'Rule Codification', status: 'ACTIVE' },
-            { step: '7', title: 'Mentor Coaching', status: 'ACTIVE' }
+            { step: '1', title: 'Grounding Interview' },
+            { step: '2', title: 'Codification (JSON AST)' },
+            { step: '3', title: 'Parameter Extraction' },
+            { step: '4', title: 'Database Validation' },
+            { step: '5', title: 'Explainability Engine' },
+            { step: '6', title: 'Rule Codification' },
+            { step: '7', title: 'Mentor Coaching' }
           ].map((item) => (
             <div key={item.step} style={{
               display: 'flex',
               alignItems: 'center',
               justify: 'space-between',
-              padding: '10px 14px',
-              borderRadius: '10px',
-              background: 'rgba(30, 41, 59, 0.4)',
-              border: '1px solid rgba(255, 255, 255, 0.05)',
-              fontSize: '13px',
-              transition: 'all 0.2s ease'
+              padding: '8px 10px',
+              borderRadius: '6px',
+              background: 'rgba(255, 255, 255, 0.03)',
+              fontSize: '12px',
+              color: '#d4d4d8'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{
-                  width: '22px',
-                  height: '22px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #2563eb, #3b82f6)',
-                  color: '#fff',
-                  fontSize: '11px',
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  color: '#a1a1aa',
+                  background: '#27272a',
+                  width: '18px',
+                  height: '18px',
+                  borderRadius: '4px',
                   display: 'flex',
                   alignItems: 'center',
-                  justify: 'center',
-                  fontWeight: 700
+                  justify: 'center'
                 }}>{item.step}</span>
-                <span style={{ color: '#e2e8f0', fontWeight: 500 }}>{item.title}</span>
+                <span>{item.title}</span>
               </div>
-              <span style={{ fontSize: '10px', fontWeight: 700, color: '#34d399', background: 'rgba(16, 185, 129, 0.1)', padding: '2px 6px', borderRadius: '4px' }}>
-                {item.status}
+              <span style={{ fontSize: '9px', fontWeight: 600, color: '#10b981', background: 'rgba(16,185,129,0.1)', padding: '2px 5px', borderRadius: '4px' }}>
+                ACTIVE
               </span>
             </div>
           ))}
         </div>
 
-        {/* Observability Box */}
-        <div style={{ marginTop: 'auto', paddingTop: '18px', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
-          <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '10px' }}>
-            Observability Telemetry
-          </div>
+        {/* Langfuse Observability */}
+        <div style={{ paddingTop: '16px', borderTop: '1px solid #27272a' }}>
           <a
             href="https://jp.cloud.langfuse.com"
             target="_blank"
@@ -195,80 +220,79 @@ export default function ContinuumDashboard() {
               display: 'flex',
               alignItems: 'center',
               justify: 'space-between',
-              color: '#93c5fd',
+              color: '#a1a1aa',
               textDecoration: 'none',
-              fontSize: '13px',
-              fontWeight: 600,
-              padding: '12px 16px',
-              background: 'rgba(30, 41, 59, 0.6)',
-              borderRadius: '12px',
-              border: '1px solid rgba(147, 197, 253, 0.2)',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
+              fontSize: '12px',
+              fontWeight: 500,
+              padding: '8px 10px',
+              borderRadius: '6px',
+              background: '#18181b',
+              border: '1px solid #27272a',
+              transition: 'color 0.2s'
             }}
           >
             <span>📊 Langfuse Traces</span>
-            <span style={{ fontSize: '14px' }}>↗</span>
+            <span style={{ fontSize: '11px' }}>↗</span>
           </a>
         </div>
       </div>
 
-      {/* CENTER AREA: Main Chat Dashboard */}
+      {/* CENTER AREA: Chat Interface */}
       <div style={{
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        background: 'rgba(11, 17, 32, 0.95)',
+        background: '#09090b',
         position: 'relative'
       }}>
-        {/* Top Navigation Bar */}
+        {/* Top Header */}
         <div style={{
-          height: '70px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          height: '56px',
+          borderBottom: '1px solid #27272a',
           display: 'flex',
           alignItems: 'center',
           justify: 'space-between',
-          padding: '0 28px',
-          background: 'rgba(15, 23, 42, 0.8)',
-          backdropFilter: 'blur(12px)'
+          padding: '0 24px',
+          background: '#121215'
         }}>
           <div>
-            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#ffffff' }}>
+            <div style={{ fontSize: '14px', fontWeight: 600, color: '#f4f4f5' }}>
               Master Orchestrator Assistant
-            </h2>
-            <span style={{ fontSize: '12px', color: '#94a3b8' }}>
-              Industrial Telemetry & Expert Rules Engine
-            </span>
+            </div>
+            <div style={{ fontSize: '11px', color: '#71717a' }}>
+              Tacit Knowledge Transfer & Telemetry Verification
+            </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <button
-              onClick={() => runScenario("Run master orchestrator for Pump B burnout: Vibration > 4.5 mm/s, Temp > 90C. Current: 5.0 mm/s and 95C.")}
-              style={{
-                background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-                color: '#ffffff',
-                border: 'none',
-                padding: '10px 18px',
-                borderRadius: '10px',
-                fontSize: '13px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(239, 68, 68, 0.4)',
-                transition: 'transform 0.1s ease'
-              }}
-            >
-              🚨 Trigger Pump B Scenario
-            </button>
-          </div>
+          <button
+            onClick={() => runScenario("Run master orchestrator for Pump B burnout: Vibration > 4.5 mm/s, Temp > 90C. Current: 5.0 mm/s and 95C.")}
+            style={{
+              background: '#dc2626',
+              color: '#ffffff',
+              border: 'none',
+              padding: '7px 14px',
+              borderRadius: '6px',
+              fontSize: '12px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              boxShadow: '0 2px 8px rgba(220, 38, 38, 0.3)'
+            }}
+          >
+            <span>🚨</span> Trigger Pump B Scenario
+          </button>
         </div>
 
-        {/* Chat History */}
+        {/* Chat Scroll Area */}
         <div style={{
           flex: 1,
           overflowY: 'auto',
-          padding: '28px',
+          padding: '24px 32px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '24px'
+          gap: '20px'
         }}>
           {messages.map((msg) => (
             <div
@@ -277,70 +301,60 @@ export default function ContinuumDashboard() {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-                maxWidth: '82%',
+                maxWidth: '78%',
                 alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start'
               }}
             >
               <div style={{
                 fontSize: '11px',
-                color: '#64748b',
-                marginBottom: '6px',
-                padding: '0 4px',
-                fontWeight: 600
+                color: '#71717a',
+                marginBottom: '4px',
+                padding: '0 2px'
               }}>
-                {msg.sender === 'user' ? 'Operator' : 'Master Orchestrator AI'} • {msg.timestamp}
+                {msg.sender === 'user' ? 'Operator' : 'Master Orchestrator'} • {msg.timestamp}
               </div>
 
-              {/* Message Bubble */}
+              {/* Message Content */}
               <div style={{
-                background: msg.sender === 'user'
-                  ? 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)'
-                  : 'rgba(30, 41, 59, 0.8)',
-                color: '#ffffff',
-                padding: '16px 20px',
-                borderRadius: '18px',
-                borderTopRightRadius: msg.sender === 'user' ? '4px' : '18px',
-                borderTopLeftRadius: msg.sender === 'assistant' ? '4px' : '18px',
-                fontSize: '14px',
-                lineHeight: '1.65',
-                whiteSpace: 'pre-wrap',
-                border: msg.sender === 'assistant' ? '1px solid rgba(255, 255, 255, 0.08)' : 'none',
-                boxShadow: msg.sender === 'user'
-                  ? '0 6px 16px rgba(37, 99, 235, 0.3)'
-                  : '0 6px 16px rgba(0, 0, 0, 0.2)'
+                background: msg.sender === 'user' ? '#2563eb' : '#18181b',
+                color: '#f4f4f5',
+                padding: '14px 18px',
+                borderRadius: '12px',
+                fontSize: '13px',
+                lineHeight: '1.6',
+                border: msg.sender === 'assistant' ? '1px solid #27272a' : 'none'
               }}>
-                {msg.text}
+                {formatMarkdownText(msg.text)}
               </div>
 
-              {/* Inline Rendered MCP Widgets */}
+              {/* Rendered MCP Widgets */}
               {msg.widgets && (
                 <div style={{
-                  marginTop: '16px',
+                  marginTop: '12px',
                   width: '100%',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '16px'
+                  gap: '12px'
                 }}>
                   {msg.widgets.map((w, idx) => (
                     <div key={idx} style={{
-                      background: 'linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%)',
-                      borderRadius: '18px',
-                      padding: '20px',
-                      border: '1px solid rgba(99, 102, 241, 0.3)',
-                      boxShadow: '0 12px 24px -6px rgba(0, 0, 0, 0.4)'
+                      background: '#121215',
+                      borderRadius: '12px',
+                      padding: '16px',
+                      border: '1px solid #27272a'
                     }}>
                       {w.type === 'ast' && (
                         <div>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                            <div style={{ fontSize: '14px', fontWeight: 700, color: '#93c5fd' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                            <div style={{ fontSize: '13px', fontWeight: 600, color: '#60a5fa' }}>
                               ⚡ Structured JSON AST Rule
                             </div>
-                            <span style={{ background: '#ef4444', color: '#fff', fontSize: '11px', padding: '3px 10px', borderRadius: '12px', fontWeight: 800 }}>
+                            <span style={{ background: '#ef4444', color: '#fff', fontSize: '10px', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
                               {w.data.action}
                             </span>
                           </div>
-                          <div style={{ background: 'rgba(15, 23, 42, 0.8)', padding: '14px', borderRadius: '12px', fontFamily: "'JetBrains Mono', monospace", fontSize: '13px' }}>
-                            <div style={{ color: '#a5b4fc', marginBottom: '8px' }}>Operator: <strong>{w.data.operator}</strong></div>
+                          <div style={{ background: '#18181b', padding: '12px', borderRadius: '8px', fontFamily: "'JetBrains Mono', monospace", fontSize: '12px', border: '1px solid #27272a' }}>
+                            <div style={{ color: '#a1a1aa', marginBottom: '6px' }}>Operator: <strong>{w.data.operator}</strong></div>
                             {w.data.conditions.map((c: any, i: number) => (
                               <div key={i} style={{ color: '#fbbf24', margin: '4px 0' }}>
                                 • {c.parameter} {c.operator} <strong>{c.threshold}</strong>
@@ -352,12 +366,12 @@ export default function ContinuumDashboard() {
 
                       {w.type === 'mentor' && (
                         <div>
-                          <div style={{ fontSize: '14px', fontWeight: 700, color: '#fca5a5', marginBottom: '10px' }}>
+                          <div style={{ fontSize: '13px', fontWeight: 600, color: '#fca5a5', marginBottom: '8px' }}>
                             🚨 Critical Operational Guidance
                           </div>
-                          <div style={{ background: 'linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%)', padding: '16px', borderRadius: '12px', fontSize: '13px', color: '#ffffff' }}>
-                            <div style={{ fontSize: '12px', opacity: 0.9, marginBottom: '6px' }}>{w.data.scenario}</div>
-                            <div style={{ fontWeight: 800, fontSize: '14px', marginTop: '8px' }}>
+                          <div style={{ background: '#7f1d1d', padding: '12px', borderRadius: '8px', fontSize: '12px', color: '#ffffff' }}>
+                            <div style={{ fontSize: '11px', opacity: 0.9, marginBottom: '4px' }}>{w.data.scenario}</div>
+                            <div style={{ fontWeight: 700, fontSize: '13px', marginTop: '6px' }}>
                               ACTION: EMERGENCY SHUTDOWN PUMP-B IMMEDIATELY
                             </div>
                           </div>
@@ -371,138 +385,133 @@ export default function ContinuumDashboard() {
           ))}
 
           {isProcessing && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#60a5fa', fontSize: '13px', fontWeight: 600 }}>
-              <span style={{ animation: 'spin 1s linear infinite' }}>⚡</span>
-              Master Orchestrator executing 7-step tacit knowledge pipeline...
+            <div style={{ color: '#60a5fa', fontSize: '12px', fontStyle: 'italic', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span>⚡</span> Executing master orchestrator pipeline...
             </div>
           )}
         </div>
 
-        {/* Bottom Input Console */}
+        {/* Input Bar */}
         <div style={{
-          padding: '20px 28px',
-          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-          background: 'rgba(15, 23, 42, 0.8)',
-          backdropFilter: 'blur(12px)',
+          padding: '16px 24px',
+          borderTop: '1px solid #27272a',
+          background: '#121215',
           display: 'flex',
-          gap: '14px'
+          gap: '10px'
         }}>
           <input
             type="text"
             value={inputPrompt}
             onChange={(e) => setInputPrompt(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Ask Master Orchestrator or run pipeline..."
+            placeholder="Type your scenario or prompt..."
             style={{
               flex: 1,
-              background: 'rgba(30, 41, 59, 0.6)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '12px',
-              padding: '14px 20px',
-              color: '#ffffff',
-              fontSize: '14px',
-              outline: 'none',
-              fontFamily: 'inherit'
+              background: '#18181b',
+              border: '1px solid #27272a',
+              borderRadius: '8px',
+              padding: '10px 14px',
+              color: '#f4f4f5',
+              fontSize: '13px',
+              outline: 'none'
             }}
           />
           <button
             onClick={() => handleSend()}
             style={{
-              background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+              background: '#2563eb',
               color: '#ffffff',
               border: 'none',
-              padding: '14px 28px',
-              borderRadius: '12px',
-              fontWeight: 700,
+              padding: '10px 20px',
+              borderRadius: '8px',
+              fontWeight: 600,
               cursor: 'pointer',
-              fontSize: '14px',
-              boxShadow: '0 4px 14px rgba(37, 99, 235, 0.4)'
+              fontSize: '13px'
             }}
           >
-            Send Prompt
+            Send
           </button>
         </div>
       </div>
 
-      {/* RIGHT SIDEBAR: Tacit Rules & DB Metrics */}
+      {/* RIGHT SIDEBAR: Telemetry & Rules */}
       <div style={{
-        width: '340px',
-        background: 'rgba(15, 23, 42, 0.75)',
-        backdropFilter: 'blur(16px)',
-        borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
-        padding: '24px',
+        width: '280px',
+        background: '#121215',
+        borderLeft: '1px solid #27272a',
+        padding: '20px 16px',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        gap: '24px'
+        gap: '20px'
       }}>
         <div>
-          <h3 style={{ margin: '0 0 14px 0', fontSize: '14px', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.01em' }}>
-            📜 Active Tacit Rule Registry
-          </h3>
+          <div style={{ fontSize: '11px', fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '10px' }}>
+            Active Tacit Rule
+          </div>
           <div style={{
-            background: 'rgba(30, 41, 59, 0.6)',
-            padding: '14px',
-            borderRadius: '14px',
-            borderLeft: '4px solid #3b82f6',
-            border: '1px solid rgba(255, 255, 255, 0.06)',
+            background: '#18181b',
+            padding: '12px',
+            borderRadius: '8px',
+            border: '1px solid #27272a',
+            borderLeft: '3px solid #3b82f6',
             fontSize: '12px'
           }}>
-            <div style={{ fontWeight: 800, color: '#93c5fd', marginBottom: '4px' }}>RULE_BEARING_001</div>
-            <div style={{ color: '#cbd5e1', lineHeight: '1.4' }}>IF Vibration &gt; 4.5 mm/s AND Temp &gt; 90°C THEN Shutdown</div>
-            <div style={{ marginTop: '10px', color: '#34d399', fontWeight: 700 }}>● Grounded & Validated</div>
+            <div style={{ fontWeight: 700, color: '#60a5fa', marginBottom: '4px' }}>RULE_BEARING_001</div>
+            <div style={{ color: '#a1a1aa', fontSize: '11px', lineHeight: '1.4' }}>IF Vibration &gt; 4.5 AND Temp &gt; 90°C THEN Shutdown</div>
+            <div style={{ marginTop: '8px', color: '#10b981', fontSize: '10px', fontWeight: 600 }}>● Grounded & Validated</div>
           </div>
         </div>
 
         <div>
-          <h3 style={{ margin: '0 0 14px 0', fontSize: '14px', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.01em' }}>
-            🗄️ Neon PostgreSQL Telemetry
-          </h3>
+          <div style={{ fontSize: '11px', fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '10px' }}>
+            Neon DB Telemetry
+          </div>
           <div style={{
-            background: 'rgba(30, 41, 59, 0.6)',
-            padding: '16px',
-            borderRadius: '14px',
-            border: '1px solid rgba(255, 255, 255, 0.06)',
+            background: '#18181b',
+            padding: '12px',
+            borderRadius: '8px',
+            border: '1px solid #27272a',
             fontSize: '12px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '8px'
+            gap: '6px'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#94a3b8' }}>Target Table:</span>
-              <span style={{ fontFamily: "'JetBrains Mono', monospace", color: '#e2e8f0' }}>sensor_readings</span>
+              <span style={{ color: '#71717a' }}>Table:</span>
+              <span style={{ fontFamily: 'monospace', color: '#e4e4e7', fontSize: '11px' }}>sensor_readings</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#94a3b8' }}>Equipment ID:</span>
-              <span style={{ fontWeight: 700, color: '#60a5fa' }}>MACHINE-B</span>
+              <span style={{ color: '#71717a' }}>Machine:</span>
+              <span style={{ fontWeight: 600, color: '#60a5fa' }}>MACHINE-B</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#94a3b8' }}>Max Recorded Vibration:</span>
-              <span style={{ color: '#fbbf24', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>3.32 mm/s</span>
+              <span style={{ color: '#71717a' }}>Max Vibration:</span>
+              <span style={{ color: '#fbbf24', fontWeight: 600, fontFamily: 'monospace' }}>3.32 mm/s</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#94a3b8' }}>Max Recorded Temp:</span>
-              <span style={{ color: '#fbbf24', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>83.69°C</span>
+              <span style={{ color: '#71717a' }}>Max Temp:</span>
+              <span style={{ color: '#fbbf24', fontWeight: 600, fontFamily: 'monospace' }}>83.69°C</span>
             </div>
           </div>
         </div>
 
         <div>
-          <h3 style={{ margin: '0 0 14px 0', fontSize: '14px', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.01em' }}>
-            ⚡ Server Transports
-          </h3>
+          <div style={{ fontSize: '11px', fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '10px' }}>
+            Server Transports
+          </div>
           <div style={{
-            background: 'rgba(30, 41, 59, 0.6)',
-            padding: '14px',
-            borderRadius: '14px',
-            border: '1px solid rgba(255, 255, 255, 0.06)',
-            fontSize: '12px',
+            background: '#18181b',
+            padding: '12px',
+            borderRadius: '8px',
+            border: '1px solid #27272a',
+            fontSize: '11px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '8px'
+            gap: '6px'
           }}>
-            <div><strong style={{ color: '#a5b4fc' }}>Streamable MCP:</strong> <code style={{ color: '#38bdf8' }}>:3000/mcp</code></div>
-            <div><strong style={{ color: '#a5b4fc' }}>Widgets Bundle:</strong> <code style={{ color: '#38bdf8' }}>:3001</code></div>
+            <div style={{ color: '#a1a1aa' }}>MCP: <code style={{ color: '#38bdf8' }}>:3000/mcp</code></div>
+            <div style={{ color: '#a1a1aa' }}>Widgets: <code style={{ color: '#38bdf8' }}>:3001</code></div>
           </div>
         </div>
       </div>
