@@ -11,6 +11,7 @@
 - [Overview](#overview)
 - [What is MCP?](#what-is-mcp)
 - [Features](#features)
+- [Repository Structure & File Breakdown](#repository-structure--file-breakdown)
 - [7-Step Knowledge Pipeline](#7-step-knowledge-pipeline)
 - [Exposed MCP Tools & Prompts](#exposed-mcp-tools--prompts)
 - [Live Demo](#live-demo)
@@ -58,6 +59,39 @@ This project is one such MCP server. Learn more about building and shipping MCP 
 - **Langfuse Observability Integration**: Every tool execution logs input, execution latency, and output payloads to Langfuse Cloud.
 - **Interactive Next.js MCP Widgets**: Includes inline rendered visual widgets for AST rules, emergency guidance cards, and database tables.
 - **Deployed on Nitrostack**: Reliable, hosted, and instantly accessible via HTTP SSE / Streamable endpoints.
+
+## Repository Structure & File Breakdown
+
+### 1. Documentation (`docs/`)
+- `docs/demo-script.md`: 3-minute video presentation transcript, timestamp breakdown (0:00 - 3:00), and speaker voiceover script.
+- `docs/submission-checklist.md`: Official hackathon verification, platform rules audit, and environment variable checklist.
+- `docs/getting-started.md`: Comprehensive local & cloud installation, configuration, and environment setup instructions.
+- `docs/index.md`: Master system architecture document detailing the 7-step pipeline and database schemas.
+- `docs/verification.md`: End-to-end testing procedures, sample prompts, and telemetry inspection guide.
+
+### 2. Backend MCP Pipeline Modules (`src/modules/`)
+- `src/modules/elicitation/`: `conduct_interview` tool for processing raw expert grounding transcripts.
+- `src/modules/codification/`: `codify_transcript` tool for converting natural language into Structured JSON ASTs.
+- `src/modules/extraction/`: `extract_parameters` tool for isolating numerical parameters, logical operators, and thresholds.
+- `src/modules/validation/`: `query_neon_database` & `validate_heuristic` tools for executing SQL queries against Neon PostgreSQL sensor telemetry (`sensor_readings` table).
+- `src/modules/explainability/`: `generate_explanation` tool for synthesizing validation confidence narratives.
+- `src/modules/mentor/`: `coach_apprentice` tool for delivering real-time senior technician coaching cards with `short` or `detailed` verbosity.
+
+### 3. Telemetry & Infrastructure (`src/telemetry/`, `src/health/`, `src/`)
+- `src/telemetry/langfuse.service.ts`: Wraps tool executions in Langfuse Cloud spans, logging query inputs, execution latency, and outputs.
+- `src/health/system.health.ts`: Controller endpoint for system health diagnostics.
+- `src/app.module.ts`: Root NitroStack module registering all pipeline tools, controllers, and services.
+- `src/index.ts`: Application entrypoint configuring server transports (`/mcp` HTTP streamable endpoint and `/sse`).
+
+### 4. Interactive Web Dashboard & MCP Widgets (`src/widgets/`)
+- `src/widgets/app/rule-ast-widget/`: Rendered JSON AST visualization widget for displaying active conditions and logical operators.
+- `src/widgets/app/mentor-guidance-widget/`: Red-alert emergency coaching card widget for field operators.
+- `src/widgets/app/database-visualizer/`: Rendered query result table widget displaying Neon PostgreSQL sensor readings.
+- `src/widgets/app/page.tsx`: Standalone industrial Web Dashboard with live chat interface, pipeline step indicators, and Pump B scenario trigger button.
+- `src/widgets/widget-manifest.json`: NitroStack manifest mapping widget URIs to Next.js routes.
+
+### 5. Test Suite (`tests/`)
+- `tests/test-validation.ts`: Tsx validation script for testing the statistical validation engine against sample telemetry payloads.
 
 ## 7-Step Knowledge Pipeline
 
