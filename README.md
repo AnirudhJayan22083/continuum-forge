@@ -182,7 +182,7 @@ You can test the interactive assistant directly in your browser using the Hosted
 ### Installation
 
 ```bash
-git clone https://github.com/AadiHaldar/continuum-forge.git
+git clone https://github.com/AnirudhJayan22083/continuum-forge.git
 cd continuum-forge
 npm install
 ```
