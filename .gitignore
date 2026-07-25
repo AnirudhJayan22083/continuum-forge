@@ -6,8 +6,20 @@ src/widgets/out/
 .env
 .env.local
 .env.*.local
+
+# IDE & AI Agent folders
+.agents/
+.antigravity/
+.claude/
+.codex/
+.copilot/
+.cursor/
+.gemini/
+.opencode/
 .idea/
 .vscode/
+
+# Logs & temp files
 *.swp
 *.swo
 *~
@@ -30,4 +42,3 @@ uploads/
 *.pem
 *.key
 tokens.json
-.git/
