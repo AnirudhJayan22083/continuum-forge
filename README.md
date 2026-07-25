@@ -14,7 +14,8 @@
 - [Repository Structure & File Breakdown](#repository-structure--file-breakdown)
 - [7-Step Knowledge Pipeline](#7-step-knowledge-pipeline)
 - [Exposed MCP Tools & Prompts](#exposed-mcp-tools--prompts)
-- [Live Demo](#live-demo)
+- [Live Demo & Testing UI](#live-demo--testing-ui)
+- [How Judges & AI Clients Test Your Chat & UI](#how-judges--ai-clients-test-your-chat--ui)
 - [Getting Started](#getting-started)
 - [Connect to an MCP Client](#connect-to-an-mcp-client)
 - [Deploy Your Own MCP App](#deploy-your-own-mcp-app)
@@ -117,11 +118,22 @@ This project is one such MCP server. Learn more about building and shipping MCP 
 - `rule_generation`: System instructions for formatting parseable JSON AST rules.
 - `mentor_persona`: Configures the LLM as a veteran manufacturing technician with 30 years of floor experience.
 
-## Live Demo
+## Live Demo & Testing UI
 
-**Live MCP endpoint:** https://continuum-for-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/mcp
+**Live MCP Endpoint:** `https://continuum-for-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/mcp`
 
-Point your MCP client at the endpoint above to try it instantly. Prefer a hosted setup? Deploy your own in minutes on [Nitrostack](https://nitrostack.ai).
+Point your MCP client at the endpoint above to try it instantly.
+
+## How Judges & AI Clients Test Your Chat & UI
+
+1. **Connecting MCP Clients (NitroChat / NitroStudio / Claude Desktop / Cursor)**:
+   Judges connect their MCP client directly to `https://continuum-for-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/mcp`. Opening `/mcp` in a standard browser streams raw Server-Sent Events (SSE), confirming the backend is live and operational.
+
+2. **Interactive MCP Widgets**:
+   When the AI client calls tools like `coach_apprentice` or `codify_transcript`, NitroStack automatically fetches and renders custom interactive Next.js frontend widgets (`Rule AST Visualizer`, `Emergency Guidance Card`, `Database Visualizer`) directly inside the chat interface.
+
+3. **Standalone Industrial Web Dashboard**:
+   To test the standalone dashboard locally, run `npm start` and visit `http://localhost:3001` to access the full interactive interface with pipeline step indicators and trigger buttons.
 
 ## Getting Started
 
