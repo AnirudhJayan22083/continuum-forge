@@ -6,6 +6,7 @@ import { ExtractionModule } from './modules/extraction/extraction.module.js';
 import { ExplainabilityModule } from './modules/explainability/explainability.module.js';
 import { MentorModule } from './modules/mentor/mentor.module.js';
 import { DatasetModule } from './modules/dataset/dataset.module.js';
+import { MasterModule } from './modules/master/master.module.js';
 import { SystemHealthCheck } from './health/system.health.js';
 
 /**
@@ -35,7 +36,8 @@ import { SystemHealthCheck } from './health/system.health.js';
     ExtractionModule,
     ExplainabilityModule,
     MentorModule,
-    DatasetModule
+    DatasetModule,
+    MasterModule
   ],
   providers: [
     // Health Checks

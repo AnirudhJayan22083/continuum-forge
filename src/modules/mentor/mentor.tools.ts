@@ -8,17 +8,19 @@ export class MentorTools {
     description: 'Provides guidance to junior operators based on codified manufacturing rules.',
     inputSchema: z.object({
       scenario: z.string().describe('The situation the junior operator is facing'),
-      applicableRule: z.string().describe('The codified rule that applies here')
+      applicableRule: z.any().describe('The codified Structured JSON AST rule that applies here')
     }),
   })
   async coachApprentice(input: any, ctx: ExecutionContext) {
+    let ruleStr = typeof input.applicableRule === 'string' ? input.applicableRule : JSON.stringify(input.applicableRule);
+    
     if (!input.scenario || input.scenario === 'expected value' || input.scenario.trim() === '') {
       return {
         success: false,
         error: "Incomplete scenario. Please provide both the current scenario the junior operator is facing and the applicable rule to base the coaching on."
       };
     }
-    if (!input.applicableRule || input.applicableRule === 'expected value' || input.applicableRule.trim() === '') {
+    if (!ruleStr || ruleStr === 'expected value' || ruleStr.trim() === '' || ruleStr === '{}') {
       return {
         success: false,
         error: "Incomplete scenario. Please provide both the current scenario the junior operator is facing and the applicable rule to base the coaching on."
@@ -28,7 +30,7 @@ export class MentorTools {
     ctx.logger.info(`Mentoring apprentice on scenario: ${input.scenario}`);
     return {
       success: true,
-      instruction: `Please act as a Senior Manufacturing Mentor. A junior operator is facing the following scenario: "${input.scenario}". Based on the rule "${input.applicableRule}", provide them with friendly, actionable guidance on what to do next.`
+      instruction: `Please act as a Senior Manufacturing Mentor. A junior operator is facing the following scenario: "${input.scenario}". Based on the Structured JSON AST rule "${ruleStr}", provide them with friendly, actionable guidance on what to do next.`
     };
   }
 

@@ -1,4 +1,4 @@
-import { ControllerDecorator as Controller, ToolDecorator as Tool, z, ExecutionContext } from '@nitrostack/core';
+import { ControllerDecorator as Controller, ToolDecorator as Tool, PromptDecorator as Prompt, z, ExecutionContext } from '@nitrostack/core';
 import pg from 'pg';
 
 @Controller('dataset')
@@ -66,5 +66,21 @@ export class DatasetTools {
         error: e.message
       };
     }
+  }
+
+  @Prompt({
+    name: 'database_analyst_subagent',
+    description: 'Instructs the LLM to act as a secure Database Analyst.',
+    arguments: [],
+  })
+  async getDatabaseAnalystPrompt() {
+    return {
+      messages: [
+        {
+          role: 'user',
+          content: `You are the Database Analyst Subagent. Your job is to convert extracted parameters into safe PostgreSQL SELECT queries. Do not generate destructive queries.`
+        }
+      ]
+    };
   }
 }

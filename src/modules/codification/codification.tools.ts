@@ -14,7 +14,7 @@ export class CodificationTools {
     ctx.logger.info('Received transcript for codification');
     return {
       success: true,
-      instruction: `Please act as a Tacit Knowledge Codifier. Read the following interview transcript and extract the core heuristic into a formal rule structure (e.g., IF [Condition] THEN [Action] BECAUSE [Reason]). Transcript: "${input.transcript}"`
+      instruction: `Please act as a Tacit Knowledge Codifier. Read the following interview transcript and extract the core heuristic into a formal Structured JSON AST Rule. Transcript: "${input.transcript}"`
     };
   }
 
@@ -28,11 +28,12 @@ export class CodificationTools {
       messages: [
         {
           role: 'user',
-          content: `When codifying tacit knowledge, you MUST format the rule strictly as:
-IF [Specific measurable condition] 
-AND [Optional secondary condition]
-THEN [Specific Action]
-BECAUSE [Underlying tacit reasoning]
+          content: `When codifying tacit knowledge, you MUST format the rule strictly as a parseable JSON object matching this schema:
+{
+  "trigger": { "variable": "string", "operator": "string", "value": "number|string" },
+  "action": "string",
+  "reasoning": "string"
+}
 
 Do not include any conversational filler.`
         }
