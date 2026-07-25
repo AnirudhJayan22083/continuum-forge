@@ -41,7 +41,16 @@ export class MentorTools {
 
       return {
         success: true,
-        instruction: `Please act as a Senior Manufacturing Mentor. A junior operator is facing the following scenario: "${input.scenario}". Based on the Structured JSON AST rule "${ruleStr}", ${verbosityInstruction}`
+        instruction: `Please act as a Senior Manufacturing Mentor. A junior operator is facing the following scenario: "${input.scenario}". Based on the Structured JSON AST rule "${ruleStr}", ${verbosityInstruction}`,
+        ui: {
+          widget: {
+            uri: '/mentor-guidance-widget',
+            data: {
+              scenario: input.scenario,
+              verbosity: input.verbosity || 'short'
+            }
+          }
+        }
       };
     });
   }

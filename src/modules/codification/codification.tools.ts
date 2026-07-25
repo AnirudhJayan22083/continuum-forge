@@ -16,7 +16,22 @@ export class CodificationTools {
       ctx.logger.info('Received transcript for codification');
       return {
         success: true,
-        instruction: `Please act as a Tacit Knowledge Codifier. Read the following interview transcript and extract the core heuristic into a formal Structured JSON AST Rule. Transcript: "${input.transcript}"`
+        instruction: `Please act as a Tacit Knowledge Codifier. Read the following interview transcript and extract the core heuristic into a formal Structured JSON AST Rule. Transcript: "${input.transcript}"`,
+        ui: {
+          widget: {
+            uri: '/rule-ast-widget',
+            data: {
+              rawRule: {
+                operator: 'AND',
+                conditions: [
+                  { parameter: 'vibration_mm_s', operator: '>', threshold: 4.5 },
+                  { parameter: 'temperature_celsius', operator: '>', threshold: 90 }
+                ],
+                action: 'SHUTDOWN'
+              }
+            }
+          }
+        }
       };
     });
   }

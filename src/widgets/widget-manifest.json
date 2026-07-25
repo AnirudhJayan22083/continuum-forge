@@ -5,41 +5,7 @@
       "uri": "/calculator-result",
       "name": "Calculator Result",
       "description": "Displays the result of a calculation with operation details",
-      "examples": [
-        {
-          "name": "Addition Example",
-          "description": "Shows the result of adding 5 + 3",
-          "data": {
-            "operation": "add",
-            "a": 5,
-            "b": 3,
-            "result": 8,
-            "expression": "5 + 3 = 8"
-          }
-        },
-        {
-          "name": "Multiplication Example",
-          "description": "Shows the result of multiplying 6 × 7",
-          "data": {
-            "operation": "multiply",
-            "a": 6,
-            "b": 7,
-            "result": 42,
-            "expression": "6 × 7 = 42"
-          }
-        },
-        {
-          "name": "Division Example",
-          "description": "Shows the result of dividing 20 ÷ 4",
-          "data": {
-            "operation": "divide",
-            "a": 20,
-            "b": 4,
-            "result": 5,
-            "expression": "20 ÷ 4 = 5"
-          }
-        }
-      ],
+      "examples": [],
       "tags": ["calculator", "math", "result"]
     },
     {
@@ -48,8 +14,21 @@
       "description": "Displays the result of a database query in a structured table",
       "examples": [],
       "tags": ["database", "sql", "data", "table"]
+    },
+    {
+      "uri": "/rule-ast-widget",
+      "name": "Rule AST Visualizer",
+      "description": "Displays Structured JSON AST rules with conditions and actions",
+      "examples": [],
+      "tags": ["rule", "ast", "codification", "tacit"]
+    },
+    {
+      "uri": "/mentor-guidance-widget",
+      "name": "Mentor Guidance Card",
+      "description": "Displays actionable emergency guidance for junior operators",
+      "examples": [],
+      "tags": ["mentor", "guidance", "safety", "emergency"]
     }
   ],
-  "generatedAt": "2025-01-01T00:00:00.000Z"
+  "generatedAt": "2026-07-26T00:00:00.000Z"
 }
-
