@@ -1,4 +1,5 @@
 import { ControllerDecorator as Controller, ToolDecorator as Tool, PromptDecorator as Prompt, z, ExecutionContext } from '@nitrostack/core';
+import { trackToolExecution } from '../../telemetry/langfuse.service.js';
 
 @Controller('explainability')
 export class ExplainabilityTools {
@@ -12,12 +13,14 @@ export class ExplainabilityTools {
     }),
   })
   async generateExplanation(input: any, ctx: ExecutionContext) {
-    let ruleStr = typeof input.rule === 'string' ? input.rule : JSON.stringify(input.rule);
-    ctx.logger.info(`Explaining validation result for structured rule`);
-    return {
-      success: true,
-      instruction: `Please act as an Explainable AI for Manufacturing. The Structured JSON AST rule "${ruleStr}" resulted in a validation status of "${input.validationResult ? 'Passed' : 'Failed'}". Please write a concise, human-readable explanation of why this likely occurred, suitable for a factory floor operator.`
-    };
+    return trackToolExecution('generate_explanation', input, async () => {
+      let ruleStr = typeof input.rule === 'string' ? input.rule : JSON.stringify(input.rule);
+      ctx.logger.info(`Explaining validation result for structured rule`);
+      return {
+        success: true,
+        instruction: `Please act as an Explainable AI for Manufacturing. The Structured JSON AST rule "${ruleStr}" resulted in a validation status of "${input.validationResult ? 'Passed' : 'Failed'}". Please write a concise, human-readable explanation of why this likely occurred, suitable for a factory floor operator.`
+      };
+    });
   }
 
   @Prompt({

@@ -1,4 +1,5 @@
 import { ControllerDecorator as Controller, ToolDecorator as Tool, PromptDecorator as Prompt, z, ExecutionContext } from '@nitrostack/core';
+import { trackToolExecution } from '../../telemetry/langfuse.service.js';
 
 @Controller('mentor')
 export class MentorTools {
@@ -12,26 +13,28 @@ export class MentorTools {
     }),
   })
   async coachApprentice(input: any, ctx: ExecutionContext) {
-    let ruleStr = typeof input.applicableRule === 'string' ? input.applicableRule : JSON.stringify(input.applicableRule);
-    
-    if (!input.scenario || input.scenario === 'expected value' || input.scenario.trim() === '') {
-      return {
-        success: false,
-        error: "Incomplete scenario. Please provide both the current scenario the junior operator is facing and the applicable rule to base the coaching on."
-      };
-    }
-    if (!ruleStr || ruleStr === 'expected value' || ruleStr.trim() === '' || ruleStr === '{}') {
-      return {
-        success: false,
-        error: "Incomplete scenario. Please provide both the current scenario the junior operator is facing and the applicable rule to base the coaching on."
-      };
-    }
+    return trackToolExecution('coach_apprentice', input, async () => {
+      let ruleStr = typeof input.applicableRule === 'string' ? input.applicableRule : JSON.stringify(input.applicableRule);
+      
+      if (!input.scenario || input.scenario === 'expected value' || input.scenario.trim() === '') {
+        return {
+          success: false,
+          error: "Incomplete scenario. Please provide both the current scenario the junior operator is facing and the applicable rule to base the coaching on."
+        };
+      }
+      if (!ruleStr || ruleStr === 'expected value' || ruleStr.trim() === '' || ruleStr === '{}') {
+        return {
+          success: false,
+          error: "Incomplete scenario. Please provide both the current scenario the junior operator is facing and the applicable rule to base the coaching on."
+        };
+      }
 
-    ctx.logger.info(`Mentoring apprentice on scenario: ${input.scenario}`);
-    return {
-      success: true,
-      instruction: `Please act as a Senior Manufacturing Mentor. A junior operator is facing the following scenario: "${input.scenario}". Based on the Structured JSON AST rule "${ruleStr}", provide them with friendly, actionable guidance on what to do next.`
-    };
+      ctx.logger.info(`Mentoring apprentice on scenario: ${input.scenario}`);
+      return {
+        success: true,
+        instruction: `Please act as a Senior Manufacturing Mentor. A junior operator is facing the following scenario: "${input.scenario}". Based on the Structured JSON AST rule "${ruleStr}", provide them with friendly, actionable guidance on what to do next.`
+      };
+    });
   }
 
   @Prompt({

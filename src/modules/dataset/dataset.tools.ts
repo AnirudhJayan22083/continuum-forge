@@ -1,5 +1,6 @@
 import { ControllerDecorator as Controller, ToolDecorator as Tool, PromptDecorator as Prompt, z, ExecutionContext } from '@nitrostack/core';
 import pg from 'pg';
+import { trackToolExecution } from '../../telemetry/langfuse.service.js';
 
 @Controller('dataset')
 export class DatasetTools {
@@ -22,50 +23,52 @@ export class DatasetTools {
     }),
   })
   async queryNeonDatabase(input: any, ctx: ExecutionContext) {
-    ctx.logger.info(`Executing Neon DB Query: ${input.query}`);
-    
-    // Safety check to ensure DATABASE_URL is set
-    if (!process.env.DATABASE_URL && !process.env.NEON_DATABASE_URL) {
-      return {
-        success: false,
-        error: 'DATABASE_URL environment variable is missing. Please add it to your NitroStack Cloud settings.'
-      };
-    }
+    return trackToolExecution('query_neon_database', input, async () => {
+      ctx.logger.info(`Executing Neon DB Query: ${input.query}`);
+      
+      // Safety check to ensure DATABASE_URL is set
+      if (!process.env.DATABASE_URL && !process.env.NEON_DATABASE_URL) {
+        return {
+          success: false,
+          error: 'DATABASE_URL environment variable is missing. Please add it to your NitroStack Cloud settings.'
+        };
+      }
 
-    // Optional safety: prevent destructive queries from the LLM
-    const upperQuery = input.query.toUpperCase();
-    if (upperQuery.includes('DROP') || upperQuery.includes('DELETE') || upperQuery.includes('TRUNCATE') || upperQuery.includes('UPDATE')) {
-      return {
-        success: false,
-        error: 'Only SELECT queries are allowed for security reasons.'
-      };
-    }
+      // Optional safety: prevent destructive queries from the LLM
+      const upperQuery = input.query.toUpperCase();
+      if (upperQuery.includes('DROP') || upperQuery.includes('DELETE') || upperQuery.includes('TRUNCATE') || upperQuery.includes('UPDATE')) {
+        return {
+          success: false,
+          error: 'Only SELECT queries are allowed for security reasons.'
+        };
+      }
 
-    try {
-      const result = await this.pool.query(input.query);
-      const finalRows = result.rows.slice(0, 100);
-      return {
-        success: true,
-        rowCount: result.rowCount,
-        rows: finalRows, // Hard limit to 100 rows to prevent massive payloads
-        ui: {
-          widget: {
-            uri: '/database-visualizer',
-            data: {
-              query: input.query,
-              columns: result.fields.map((f: any) => f.name),
-              rows: finalRows
+      try {
+        const result = await this.pool.query(input.query);
+        const finalRows = result.rows.slice(0, 100);
+        return {
+          success: true,
+          rowCount: result.rowCount,
+          rows: finalRows, // Hard limit to 100 rows to prevent massive payloads
+          ui: {
+            widget: {
+              uri: '/database-visualizer',
+              data: {
+                query: input.query,
+                columns: result.fields.map((f: any) => f.name),
+                rows: finalRows
+              }
             }
           }
-        }
-      };
-    } catch (e: any) {
-      ctx.logger.error(`Database Query Failed: ${e.message}`);
-      return {
-        success: false,
-        error: e.message
-      };
-    }
+        };
+      } catch (e: any) {
+        ctx.logger.error(`Database Query Failed: ${e.message}`);
+        return {
+          success: false,
+          error: e.message
+        };
+      }
+    });
   }
 
   @Prompt({

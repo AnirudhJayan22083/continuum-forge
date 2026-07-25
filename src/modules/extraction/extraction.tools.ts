@@ -1,4 +1,5 @@
 import { ControllerDecorator as Controller, ToolDecorator as Tool, PromptDecorator as Prompt, z, ExecutionContext } from '@nitrostack/core';
+import { trackToolExecution } from '../../telemetry/langfuse.service.js';
 
 @Controller('extraction')
 export class ExtractionTools {
@@ -11,11 +12,13 @@ export class ExtractionTools {
     }),
   })
   async extractParameters(input: any, ctx: ExecutionContext) {
-    ctx.logger.info(`Extracting parameters from rule: ${input.rule}`);
-    return {
-      success: true,
-      instruction: `Please act as a Data Extraction Engine. Analyze the following Structured JSON AST Rule and return a JSON list of objects containing 'parameter', 'operator', and 'threshold'. Rule: "${input.rule}"`
-    };
+    return trackToolExecution('extract_parameters', input, async () => {
+      ctx.logger.info(`Extracting parameters from rule: ${input.rule}`);
+      return {
+        success: true,
+        instruction: `Please act as a Data Extraction Engine. Analyze the following Structured JSON AST Rule and return a JSON list of objects containing 'parameter', 'operator', and 'threshold'. Rule: "${input.rule}"`
+      };
+    });
   }
 
   @Prompt({
