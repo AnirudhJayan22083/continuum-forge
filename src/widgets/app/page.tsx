@@ -289,10 +289,11 @@ export default function ContinuumDashboard() {
           display: 'flex',
           alignItems: 'center',
           justify: 'space-between',
-          padding: '0 24px',
-          background: '#121215'
+          padding: '0 32px',
+          background: '#121215',
+          gap: '24px'
         }}>
-          <div>
+          <div style={{ flexShrink: 0 }}>
             <div style={{ fontSize: '14px', fontWeight: 600, color: '#f4f4f5' }}>
               Master Orchestrator Assistant
             </div>
@@ -301,21 +302,23 @@ export default function ContinuumDashboard() {
             </div>
           </div>
 
-          {/* Red Outline Button with same BG as rest */}
+          {/* Red Outline Button shifted right */}
           <button
             onClick={() => runScenario("Run master orchestrator for Pump B burnout: Vibration > 4.5 mm/s, Temp > 90C. Current: 5.0 mm/s and 95C.")}
             style={{
               background: '#121215',
               color: '#ef4444',
               border: '1px solid #ef4444',
-              padding: '7px 14px',
+              padding: '7px 16px',
               borderRadius: '6px',
               fontSize: '12px',
               fontWeight: 600,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '6px'
+              gap: '6px',
+              marginLeft: 'auto',
+              flexShrink: 0
             }}
           >
             Trigger Pump B Scenario
