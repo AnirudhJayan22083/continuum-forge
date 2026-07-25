@@ -1,0 +1,59 @@
+import { ControllerDecorator as Controller, ToolDecorator as Tool, z, ExecutionContext } from '@nitrostack/core';
+import pg from 'pg';
+
+@Controller('dataset')
+export class DatasetTools {
+  private pool: pg.Pool;
+
+  constructor() {
+    this.pool = new pg.Pool({
+      connectionString: process.env.DATABASE_URL || process.env.NEON_DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false
+      }
+    });
+  }
+
+  @Tool({
+    name: 'query_neon_database',
+    description: 'Execute a raw SQL query against the Neon PostgreSQL database to retrieve sensor logs and historical data. Returns up to 100 rows.',
+    inputSchema: z.object({
+      query: z.string().describe('The SQL query to execute (e.g., SELECT * FROM sensor_logs LIMIT 10)')
+    }),
+  })
+  async queryNeonDatabase(input: any, ctx: ExecutionContext) {
+    ctx.logger.info(`Executing Neon DB Query: ${input.query}`);
+    
+    // Safety check to ensure DATABASE_URL is set
+    if (!process.env.DATABASE_URL && !process.env.NEON_DATABASE_URL) {
+      return {
+        success: false,
+        error: 'DATABASE_URL environment variable is missing. Please add it to your NitroStack Cloud settings.'
+      };
+    }
+
+    // Optional safety: prevent destructive queries from the LLM
+    const upperQuery = input.query.toUpperCase();
+    if (upperQuery.includes('DROP') || upperQuery.includes('DELETE') || upperQuery.includes('TRUNCATE') || upperQuery.includes('UPDATE')) {
+      return {
+        success: false,
+        error: 'Only SELECT queries are allowed for security reasons.'
+      };
+    }
+
+    try {
+      const result = await this.pool.query(input.query);
+      return {
+        success: true,
+        rowCount: result.rowCount,
+        rows: result.rows.slice(0, 100) // Hard limit to 100 rows to prevent massive payloads
+      };
+    } catch (e: any) {
+      ctx.logger.error(`Database Query Failed: ${e.message}`);
+      return {
+        success: false,
+        error: e.message
+      };
+    }
+  }
+}

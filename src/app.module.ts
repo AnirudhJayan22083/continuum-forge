@@ -5,6 +5,7 @@ import { CodificationModule } from './modules/codification/codification.module.j
 import { ExtractionModule } from './modules/extraction/extraction.module.js';
 import { ExplainabilityModule } from './modules/explainability/explainability.module.js';
 import { MentorModule } from './modules/mentor/mentor.module.js';
+import { DatasetModule } from './modules/dataset/dataset.module.js';
 import { SystemHealthCheck } from './health/system.health.js';
 
 /**
@@ -33,7 +34,8 @@ import { SystemHealthCheck } from './health/system.health.js';
     CodificationModule,
     ExtractionModule,
     ExplainabilityModule,
-    MentorModule
+    MentorModule,
+    DatasetModule
   ],
   providers: [
     // Health Checks
