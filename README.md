@@ -1,141 +1,189 @@
-# ⚡ Continuum Forge
+# Continuum Forge — Tacit Knowledge Capture, Codification & Transfer Engine
 
-> **Tacit Knowledge Capture, Codification & Transfer Engine for Manufacturing Industry 4.0**  
-> Built with **NitroStack MCP Framework**, **Neon PostgreSQL Telemetry**, and **Langfuse Observability**.
+> Continuum Forge bridges the generational skill gap in industrial manufacturing by turning fragile, unwritten expert knowledge into verifiable, automated safety rules.
 
-[![NitroStack Live](https://img.shields.io/badge/NitroStack-Live%20Deployment-0070f3?style=for-the-badge&logo=vercel)](https://cloud.nitrostack.ai)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
-[![Langfuse Telemetry](https://img.shields.io/badge/Langfuse-Telemetry%20Active-ff69b4?style=for-the-badge)](https://jp.cloud.langfuse.com)
+![Model Context Protocol](https://img.shields.io/badge/Model%20Context%20Protocol-MCP-blue) ![Built with Nitrostack](https://img.shields.io/badge/Built%20with-Nitrostack-0A66FF) ![Status](https://img.shields.io/badge/status-live-brightgreen)
 
----
+**Continuum Forge — Tacit Knowledge Capture, Codification & Transfer Engine** is an [MCP (Model Context Protocol)](https://nitrostack.ai) server that extends AI assistants — like Claude, Cursor, and any MCP-compatible client — with new, real-world capabilities. It is built and deployed on [Nitrostack](https://nitrostack.ai), the framework for building, deploying, and sharing MCP apps.
 
-## 📌 Executive Summary & Problem Statement
+## Table of Contents
 
-In industrial manufacturing, over **80% of critical operational rules of thumb reside exclusively in the heads of senior technicians**. When a veteran technician retires or leaves a shift, decades of unwritten safety knowledge and equipment diagnostics are permanently lost.
+- [Overview](#overview)
+- [What is MCP?](#what-is-mcp)
+- [Features](#features)
+- [7-Step Knowledge Pipeline](#7-step-knowledge-pipeline)
+- [Exposed MCP Tools & Prompts](#exposed-mcp-tools--prompts)
+- [Live Demo](#live-demo)
+- [Getting Started](#getting-started)
+- [Connect to an MCP Client](#connect-to-an-mcp-client)
+- [Deploy Your Own MCP App](#deploy-your-own-mcp-app)
+- [Explore More MCP Apps](#explore-more-mcp-apps)
+- [FAQ](#faq)
+- [Keywords](#keywords)
+- [License](#license)
 
-**Continuum Forge** solves this critical industry bottleneck by using an **Agentic Model Context Protocol (MCP) Pipeline** that:
-1. **Elicits** unwritten tacit knowledge through interview transcripts.
-2. **Codifies** human heuristics into machine-readable **Structured JSON AST (Abstract Syntax Tree) Rules**.
-3. **Validates** rules statistically against real-time & historical **Neon PostgreSQL sensor telemetry**.
-4. **Delivers Real-Time Coaching** to junior operators with dynamic verbosity settings (`short` for immediate emergency fixes vs `detailed` for training).
-5. **Tracks Every Tool Call** in **Langfuse** for enterprise-grade transparency and zero AI hallucination.
+## Overview
 
----
+Continuum Forge bridges the generational skill gap in industrial manufacturing by turning fragile, unwritten expert knowledge into verifiable, automated safety rules.
 
-## 📐 System Architecture
+### Problem Statement
+Over 80% of critical manufacturing rules of thumb live only in senior technicians' heads. When veteran technicians retire or leave shifts, decades of unwritten safety knowledge and equipment diagnostics vanish—leading to costly motor burnouts, plant downtime, and safety hazards.
 
-```mermaid
-flowchart TD
-    A[Senior Tech / Lead Operator] -->|Interview Transcript| B[Codification Module]
-    B -->|Structured JSON AST| C[Parameter Extraction Engine]
-    C -->|Extracted Thresholds| D[Neon PostgreSQL Sensor Telemetry]
-    D -->|Historical Validation| E[Statistical Validation Engine]
-    E -->|Confidence & Significance| F[Explainability Engine]
-    F -->|Verified Rule Registry| G[Mentor Persona Module]
-    G -->|Real-Time Guidance| H[Junior Operator / Industrial Web UI]
+### Solution Overview
+Continuum Forge operates an Agentic Model Context Protocol (MCP) pipeline that:
+1. **Grounded Elicitation**: Ingests raw interview transcripts from senior technicians.
+2. **Rule Codification**: Codifies unwritten human heuristics into machine-readable Structured JSON AST (Abstract Syntax Tree) rules.
+3. **Database Validation**: Validates rules statistically against real-time and historical Neon PostgreSQL sensor telemetry (e.g. Pump B vibration and temperature logs).
+4. **Real-Time Coaching**: Delivers instant guidance to junior operators with dynamic verbosity settings ("short" for emergency fixes vs "detailed" for mentor training).
+5. **Langfuse Observability**: Wraps every tool call in Langfuse telemetry for 100% auditability and zero AI hallucination.
 
-    subgraph Telemetry & Observability
-        B -.->|Telemetry Span| L[Langfuse Observability]
-        D -.->|Telemetry Span| L
-        E -.->|Telemetry Span| L
-        G -.->|Telemetry Span| L
-    end
-```
+### Who It Is For
+Smart factories, industrial plant managers, and junior technicians looking to preserve senior expertise before retirement and prevent catastrophic equipment burnouts.
 
----
+### What Makes It Special
+Built natively on the NitroStack MCP Framework with custom Next.js MCP Widgets (Rule AST Visualizer, Emergency Guidance Card, Database Visualizer), live Neon DB telemetry, and full Langfuse tracing.
 
-## 🚀 Key Features & Architectural Innovations
+## What is MCP?
 
-### 1. Structured JSON AST Rule Codification
-Human heuristics like *"When vibration is over 4.5 mm/s and temperature is above 90°C, shut it down to prevent a fire"* are converted into deterministic JSON ASTs:
-```json
-{
-  "operator": "AND",
-  "conditions": [
-    { "parameter": "vibration (mm/s)", "operator": ">", "threshold": 4.5 },
-    { "parameter": "temperature (C)", "operator": ">", "threshold": 90 }
-  ],
-  "action": "SHUTDOWN"
-}
-```
+The **Model Context Protocol (MCP)** is an open standard that lets AI assistants securely connect to external tools, data sources, and services. Instead of being limited to static training data, an AI model can call **MCP servers** to fetch live data, run actions, and integrate with real systems.
 
-### 2. Live Neon PostgreSQL Sensor Validation
-Queries historical machine telemetry (`sensor readings` table on `MACHINE B`) to verify whether rule conditions ever triggered simultaneously in historical logs.
+This project is one such MCP server. Learn more about building and shipping MCP apps at [nitrostack.ai](https://nitrostack.ai).
 
-### 3. Flexible Verbosity Mode (Short vs Detailed)
-- **`verbosity: "short"`**: Provides strictly the immediate emergency action (`ACTIVATE EMERGENCY SHUTDOWN PUMP B IMMEDIATELY`).
-- **`verbosity: "detailed"`**: Provides a full senior mentor coaching session explaining root cause and preventive measures.
+## Features
 
-### 4. End-to-End Telemetry with Langfuse
-Every MCP tool execution is wrapped with `trackToolExecution()`. Input parameters, database query rows, validation outputs, and execution latencies are logged in real-time to **Langfuse Cloud**.
+- **MCP-Native Architecture**: Works seamlessly with any MCP-compatible client (Claude Desktop, Cursor, NitroStudio).
+- **Structured AST Codification**: Converts natural language heuristics into deterministic JSON AST rules.
+- **Statistical DB Telemetry Validation**: Executes live SQL queries against Neon PostgreSQL sensor databases to calculate historical confidence.
+- **Dynamic Verbosity Control**: Supports `verbosity: "short"` for emergency immediate actions and `verbosity: "detailed"` for full coaching.
+- **Langfuse Observability Integration**: Every tool execution logs input, execution latency, and output payloads to Langfuse Cloud.
+- **Interactive Next.js MCP Widgets**: Includes inline rendered visual widgets for AST rules, emergency guidance cards, and database tables.
+- **Deployed on Nitrostack**: Reliable, hosted, and instantly accessible via HTTP SSE / Streamable endpoints.
 
-### 5. Interactive Web Dashboard & Rendered MCP Widgets
-Includes a standalone Web Dashboard (`http://localhost:3001`) with:
-- `Rule AST Visualizer Widget`
-- `Mentor Guidance Card Widget`
-- `Database Table Visualizer Widget`
+## 7-Step Knowledge Pipeline
 
----
+1. **Grounding Interview (`conduct_interview`)**: Captures raw domain expert interviews.
+2. **Codification (`codify_transcript`)**: Extracts AST JSON rules from expert statements.
+3. **Parameter Extraction (`extract_parameters`)**: Isolates numerical parameters, operators, and thresholds.
+4. **Database Validation (`query_neon_database` & `validate_heuristic`)**: Queries historical logs to calculate statistical significance.
+5. **Explainability Engine (`generate_explanation`)**: Produces evidence narratives explaining validation results.
+6. **Rule Codification (`codify_rule`)**: Codifies validated rules into the production rule registry.
+7. **Mentor Coaching (`coach_apprentice`)**: Delivers real-time operational guidance to field technicians.
 
-## 🛠️ Installation & Environment Setup
+## Exposed MCP Tools & Prompts
+
+### Tools
+- `codify_transcript`: Converts interview text into Structured JSON AST rules.
+- `extract_parameters`: Extracts parameters, operators, and thresholds into JSON schemas.
+- `query_neon_database`: Executes SQL queries against Neon PostgreSQL sensor database.
+- `validate_heuristic`: Computes statistical confidence against historical machine data.
+- `generate_explanation`: Generates validation evidence summaries.
+- `coach_apprentice`: Provides role-based guidance with adjustable verbosity (`short` / `detailed`).
+
+### Prompts
+- `rule_generation`: System instructions for formatting parseable JSON AST rules.
+- `mentor_persona`: Configures the LLM as a veteran manufacturing technician with 30 years of floor experience.
+
+## Live Demo
+
+**Live MCP endpoint:** https://continuum-for-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/mcp
+
+Point your MCP client at the endpoint above to try it instantly. Prefer a hosted setup? Deploy your own in minutes on [Nitrostack](https://nitrostack.ai).
+
+## Getting Started
 
 ### Prerequisites
-- **Node.js**: `v18.x` or `v20.x`
-- **npm**: `v9.x` or higher
-- **NitroStack CLI**: Installed globally (`npm install -g @nitrostack/cli`)
 
-### Environment Variables Setup
-Create a `.env` file in the root directory:
+- Node.js 18+ (or your project runtime)
+- An MCP-compatible client (Claude Desktop, Cursor, NitroStudio)
+
+### Installation
+
+```bash
+git clone https://github.com/AadiHaldar/continuum-forge.git
+cd continuum-forge
+npm install
+```
+
+### Configuration
+
+Copy the example environment file and add your own values:
+
+```bash
+cp .env.example .env
+```
+
+### Environment Variables
 
 ```env
-# Server Mode & Port
 NODE_ENV=production
 PORT=3000
-
-# LLM Providers (Provide at least one)
-GEMINI_API_KEY=your_gemini_api_key_here
-OPENAI_API_KEY=your_openai_api_key_here
-
-# Neon PostgreSQL Database
 DATABASE_URL=postgres://user:password@ep-sample-pooler.neon.tech/neondb?sslmode=require
-
-# Langfuse Observability Telemetry
 LANGFUSE_PUBLIC_KEY=pk-lf-xxxx
 LANGFUSE_SECRET_KEY=sk-lf-xxxx
 LANGFUSE_BASE_URL=https://jp.cloud.langfuse.com
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-### Local Installation
+### Run
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/AadiHaldar/continuum-forge.git
-cd continuum-forge
-
-# 2. Install dependencies
-npm install
-
-# 3. Build the application & MCP widgets
 npm run build
-
-# 4. Start the production server
-npm start
+npm run start
 ```
 
+## Connect to an MCP Client
+
+Add this server to your MCP client configuration. A typical entry looks like:
+
+```json
+{
+  "mcpServers": {
+    "continuum-forge": {
+      "url": "https://continuum-for-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/mcp"
+    }
+  }
+}
+```
+
+Restart your client and the tools from this MCP server will be available to your AI assistant.
+
+## Deploy Your Own MCP App
+
+Want to build and ship an MCP server like this one? **[Nitrostack](https://nitrostack.ai)** lets you create, deploy, and host MCP apps in minutes — no infrastructure to manage.
+
+**Start building:** [https://nitrostack.ai](https://nitrostack.ai)
+
+## Explore More MCP Apps
+
+- Discover and share MCP projects with the community on [r/mcptothemoon](https://www.reddit.com/r/mcptothemoon/)
+- Browse a growing catalog of MCP apps on [Nitrostack](https://nitrostack.ai/apps)
+
+## FAQ
+
+### What is an MCP server?
+
+An MCP server implements the Model Context Protocol to expose tools, resources, and prompts that AI assistants can call. It lets an AI model take real actions and access live data.
+
+### What does Continuum Forge — Tacit Knowledge Capture, Codification & Transfer Engine do?
+
+Continuum Forge bridges the generational skill gap in industrial manufacturing by turning fragile, unwritten expert knowledge into verifiable, automated safety rules. It codifies human heuristics, validates them against Neon PostgreSQL sensor telemetry, and coaches junior technicians in real time.
+
+### Which AI clients does this work with?
+
+Any MCP-compatible client, including Claude Desktop, Cursor, and NitroStudio. New clients are adding MCP support regularly.
+
+### How do I deploy my own MCP app?
+
+Use [Nitrostack](https://nitrostack.ai) to build, deploy, and host MCP apps without managing infrastructure.
+
+## Keywords
+
+`Manufacturing & Industry 4.0` · `Continuum Forge` · `Tacit Knowledge Capture` · `MCP` · `Model Context Protocol` · `MCP server` · `MCP app` · `AI tools` · `AI agents` · `LLM tools` · `Claude MCP` · `Nitrostack` · `Langfuse` · `Neon PostgreSQL`
+
+## License
+
+MIT © 2026
+
 ---
 
-## 💻 Usage & Running the Master Orchestrator Pipeline
-
-### Running via NitroChat / NitroStudio
-Connect your MCP client to:
-- **Streamable MCP HTTP Endpoint:** `http://localhost:3000/mcp`
-- **Legacy SSE Endpoint:** `http://localhost:3000/sse`
-
----
-
-## 📊 Documentation Index
-
-Detailed documentation files are available in the `docs/` directory:
-- [Demo Script](docs/demo-script.md) — 3-minute video presentation transcript and breakdown
-- [Submission Checklist](docs/submission-checklist.md) — Platform verification and cloud deployment audit
-- [Verification Guide](docs/verification.md) — System health check and validation procedures
+Built using the Model Context Protocol on [Nitrostack](https://nitrostack.ai). Share your MCP app on [r/mcptothemoon](https://www.reddit.com/r/mcptothemoon/).
