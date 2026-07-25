@@ -1,67 +1,87 @@
-# Official 3-Minute Demo Video Script & Screen Walkthrough
+# 🎥 Comprehensive Demo Video Recording Guide & Technical Script
 
-Project: Continuum Forge — Tacit Knowledge Capture, Codification & Transfer Engine  
-Team: Soumith's LLM Abusers  
-Target Duration: Exactly 3:00 Minutes (180 Seconds)  
-Format: Screen Recording with Live Voiceover Narration
-
----
-
-## Second-by-Second Video Map
-
-| Time | Segment Name | What to Show on Screen | Voiceover Narration Script |
-| :--- | :--- | :--- | :--- |
-| **0:00 - 0:30** | **Problem Statement** | GitHub README or slide showing industrial plant crisis diagram | *"In industrial manufacturing, over 80% of critical operational knowledge lives only in the heads of senior technicians. When a lead tech retires or leaves a shift, decades of unwritten diagnostic rules are lost, leading to catastrophic equipment burnouts and dangerous plant fires."* |
-| **0:30 - 1:00** | **NitroStudio App Canvas** | Open NitroStudio App Canvas showing 6 MCP tools connected to NitroStack Agent | *"Meet Continuum Forge, built on the NitroStack MCP Framework. Our system operates a 7-step pipeline that ingests raw interview transcripts, codifies them into Structured JSON AST rules, and validates them statistically against real-time Neon PostgreSQL sensor telemetry."* |
-| **1:00 - 2:00** | **Live Working Demo** | NitroChat Web UI (`nitrochat-con-...nitrocloud.ai/embed`). Run Pump B scenario prompt. | *"Let's see it in action. A junior tech reports 5.0 mm/s vibration and 95°C temperature on Pump B. Watch as the Master Orchestrator codifies the lead tech's rule, queries 20 Neon DB sensor rows, and renders our interactive Emergency Guidance Card instructing 'ACTIVATE EMERGENCY SHUTDOWN IMMEDIATELY'."* |
-| **2:00 - 2:30** | **Langfuse Observability** | Langfuse Cloud Dashboard (`jp.cloud.langfuse.com`) showing real-time tool execution spans | *"To ensure zero AI hallucination, every single tool call is tracked in Langfuse Cloud. Here in our telemetry waterfall, we can inspect the exact SQL queries executed against Neon DB, parameter extractions, and execution latencies in real-time."* |
-| **2:30 - 3:00** | **Deployment & Wrap-Up** | NitroStack Cloud Dashboard showing LIVE status & GitHub repository | *"Continuum Forge is actively deployed on NitroStack Cloud and open-sourced on GitHub. It bridges the generational skill gap, turning fragile human experience into resilient industrial safety. Thank you!"* |
+> **Project:** Continuum Forge — Tacit Knowledge Capture, Codification & Transfer Engine  
+> **Team:** Soumith's LLM Abusers  
+> **Target Duration:** Exactly 3:00 Minutes (180 Seconds)  
+> **Video Format:** 1080p Screen Recording (16:9) + Clear Audio Narration (MP4, WebM, MOV up to 500 MB)
 
 ---
 
-## Detailed Step-by-Step Recording Instructions
+## 🖥️ Pre-Recording Browser Tab Setup (Open these in order)
 
-### Segment 1: Problem Statement (0:00 - 0:30)
-- **What to open on screen:** Start recording with `https://github.com/AnirudhJayan22083/continuum-forge` open in your web browser. Scroll down to the System Architecture diagram.
-- **Action:** Mouse hover over the senior technician input box and Neon DB telemetry nodes.
-- **Speaker script:**
-  > "Hello everyone. Today, manufacturing plants face a massive crisis: tacit knowledge loss. Over 80% of critical operational rules of thumb reside exclusively in the minds of senior technicians. When a lead tech retires, their unwritten expertise vanishes—leading to costly motor burnouts and plant fires."
-
----
-
-### Segment 2: System Architecture & NitroStudio Canvas (0:30 - 1:00)
-- **What to open on screen:** Switch tab to **NitroStudio App Canvas** (`docs/screenshots/nitrostudio-app-canvas.png` or live NitroStudio app).
-- **Action:** Highlight the 6 MCP tools (`codify_transcript`, `extract_parameters`, `query_neon_database`, `validate_heuristic`, `generate_explanation`, `coach_apprentice`).
-- **Speaker script:**
-  > "To solve this, we built Continuum Forge using the NitroStack MCP Framework. Continuum Forge operates an end-to-end tacit knowledge pipeline. It ingests interview transcripts, codifies them into Structured JSON AST rules, validates them statistically against Neon PostgreSQL sensor telemetry, and coaches junior technicians in real time."
+1. **Tab 1 (0:00 - 0:30):** `https://github.com/AnirudhJayan22083/continuum-forge` (Scrolled to Architecture & Features)
+2. **Tab 2 (0:30 - 1:00):** **NitroStudio App Canvas** (`docs/screenshots/nitrostudio-app-canvas.png` or local NitroStudio)
+3. **Tab 3 (1:00 - 2:00):** **NitroChat Web UI** (`https://nitrochat-con-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/embed`)
+4. **Tab 4 (2:00 - 2:30):** **Langfuse Cloud Dashboard** (`https://jp.cloud.langfuse.com` -> Tracing Table)
+5. **Tab 5 (2:30 - 3:00):** **NitroStack Cloud Dashboard** (`● Live MCP https://continuum-for-soumiths-llm-abusers...`)
 
 ---
 
-### Segment 3: Live Demo in NitroChat (1:00 - 2:00)
-- **What to open on screen:** Open Hosted NitroChat Web UI (`https://nitrochat-con-soumiths-llm-abusers-amrita-university-coimbatore.app.nitrocloud.ai/embed`).
-- **Action:** Paste this exact prompt into NitroChat:
-  > `"Run the master orchestrator pipeline for the Pump B motor burnout scenario. The lead tech's rule is: 'When vibration is over 4.5 mm/s and temperature is above 90C, shutdown immediately.' Validate this against the database.`
-  > 
-  > `A junior tech just reported seeing 5.0 mm/s and 95C right now. Use short verbosity setting to give me just the immediate fix."`
-- **What happens on screen:** NitroChat streams back the response, codifying the AST rule, querying 20 Neon DB sensor rows, and displaying the **Emergency Guidance Card** instructing `ACTIVATE EMERGENCY SHUTDOWN IMMEDIATELY`.
-- **Speaker script:**
-  > "Let's look at a live demonstration. A junior tech reports 5.0 mm/s vibration and 95°C temperature on Pump B right now. We send this to our Master Orchestrator with short verbosity mode. 
-  > 
-  > Notice how NitroStack automatically codifies the rule, queries 20 historical Neon DB sensor readings, and renders our Emergency Guidance Card instructing the operator: 'ACTIVATE EMERGENCY SHUTDOWN IMMEDIATELY', skipping unnecessary fluff when seconds count."
+## 🎬 Detailed Second-by-Second Segment Breakdown & Technical Script
+
+### Segment 1: Industrial Problem Statement (0:00 - 0:30)
+- **Visual On-Screen:** 
+  - Open `https://github.com/AnirudhJayan22083/continuum-forge`. 
+  - Mouse hover over the title and scroll down to the **System Architecture Flowchart** and **Executive Summary**.
+- **What to Explain:**
+  - Explain the tacit knowledge loss crisis in Industry 4.0 manufacturing plants.
+  - Over 80% of critical operational rules of thumb reside exclusively in senior technicians' heads.
+  - When a veteran lead tech retires or finishes a shift, decades of unwritten diagnostic wisdom vanish—causing catastrophic motor burnouts, plant downtime, and safety hazards.
+- **Narrator Voiceover Script:**
+  > *"Hello everyone! Today, manufacturing plants worldwide face a massive crisis: tacit knowledge loss. Over 80% of critical operational rules of thumb reside exclusively in the heads of senior technicians. When a veteran lead tech retires or leaves a shift, decades of unwritten diagnostic wisdom vanish—leading to catastrophic equipment burnouts, downtime, and severe fire hazards."*
 
 ---
 
-### Segment 4: Langfuse Observability & Telemetry (2:00 - 2:30)
-- **What to open on screen:** Switch tab to **Langfuse Cloud Dashboard** (`https://jp.cloud.langfuse.com`).
-- **Action:** Click on the top trace span (`coach_apprentice`) to expand the waterfall view showing input SQL queries and JSON output payloads.
-- **Speaker script:**
-  > "How do we know the AI didn't hallucinate this? 
-  > 
-  > Switching to our Langfuse Observability Dashboard, we see a complete waterfall trace of the execution. We can inspect the exact SQL query executed against our Neon PostgreSQL database, returned sensor rows, and parameters. Everything is 100% deterministic, transparent, and auditable."
+### Segment 2: NitroStack Architecture & App Canvas (0:30 - 1:00)
+- **Visual On-Screen:**
+  - Switch to **Tab 2 (NitroStudio App Canvas)**.
+  - Point your mouse cursor to the central **NitroStack Agent** node, then hover over the 6 connected MCP tools (`codify_transcript`, `extract_parameters`, `query_neon_database`, `validate_heuristic`, `generate_explanation`, `coach_apprentice`).
+- **What to Explain:**
+  - Introduce **Continuum Forge** built natively on the **NitroStack MCP Framework**.
+  - Highlight the 7-step pipeline architecture that ingests raw expert transcripts, codifies them into Structured JSON AST rules, extracts parameters, and validates them statistically against real-time Neon PostgreSQL sensor telemetry.
+- **Narrator Voiceover Script:**
+  > *"To solve this, we built Continuum Forge using the NitroStack MCP Framework. As you can see here in our NitroStudio App Canvas, Continuum Forge operates a modular 7-step tacit knowledge pipeline. It ingests raw interview transcripts, codifies them into Structured JSON AST rules, isolates numerical parameters, and validates them statistically against real-time Neon PostgreSQL sensor telemetry."*
 
 ---
 
-### Segment 5: Cloud Deployment & Closing (2:30 - 3:00)
-- **What to open on screen:** Switch tab to NitroStack Cloud Dashboard showing **continuum forge** status `● Live MCP`.
-- **Speaker script:**
-  > "Continuum Forge is actively deployed on NitroStack Cloud and open-sourced on GitHub. It turns fragile human experience into resilient, automated industrial safety. Thank you!"
+### Segment 3: Live Technical Demo & Interactive MCP Widgets (1:00 - 2:00)
+- **Visual On-Screen:**
+  - Switch to **Tab 3 (NitroChat Web UI)**.
+  - Paste and submit the test scenario prompt:
+    > `"Run the master orchestrator pipeline for the Pump B motor burnout scenario. The lead tech's rule is: 'When vibration is over 4.5 mm/s and temperature is above 90C, shutdown immediately.' Validate this against the database.`
+    > 
+    > `A junior tech just reported seeing 5.0 mm/s and 95C right now. Use short verbosity setting to give me just the immediate fix."`
+  - Scroll down as the AI response streams in:
+    1. Show the codified rule logic: `IF Vibration > 4.5 mm/s AND Temp > 90°C THEN SHUTDOWN`.
+    2. Show the Neon PostgreSQL database validation result (evaluating 20 historical sensor readings on `MACHINE B`).
+    3. Highlight the rendered **Emergency Guidance Card Widget** displaying: `ACTIVATE EMERGENCY SHUTDOWN PUMP B IMMEDIATELY`.
+- **What to Explain:**
+  - Explain how the MCP server processes natural language into deterministic JSON ASTs, queries Neon DB, and dynamically adjusts verbosity mode (`short` mode for immediate emergency fixes vs `detailed` mode for mentor training).
+- **Narrator Voiceover Script:**
+  > *"Let's see a live demonstration in NitroChat. A junior tech reports 5.0 mm/s vibration and 95°C temperature on Pump B right now. We send this to our Master Orchestrator with our 'short' verbosity mode.<br><br>Watch as NitroStack automatically codifies the lead tech's heuristic into a Structured JSON AST, queries 20 historical sensor readings in our Neon PostgreSQL database, and renders an interactive Emergency Guidance Card instructing the operator: 'ACTIVATE EMERGENCY SHUTDOWN IMMEDIATELY', skipping unnecessary fluff when seconds count."*
+
+---
+
+### Segment 4: Langfuse Observability & Zero AI Hallucination (2:00 - 2:30)
+- **Visual On-Screen:**
+  - Switch to **Tab 4 (Langfuse Cloud Tracing Dashboard)** at `https://jp.cloud.langfuse.com`.
+  - Click on the top `coach_apprentice` or `validate_heuristic` span row to expand the waterfall execution view.
+  - Highlight the exact SQL query inputs, execution latencies, and output JSON payloads.
+- **What to Explain:**
+  - Explain how enterprise safety systems cannot rely on black-box AI chatbots.
+  - Show that every tool call in Continuum Forge is wrapped in `trackToolExecution()` telemetry spans in Langfuse Cloud, guaranteeing 100% auditability and zero AI hallucination.
+- **Narrator Voiceover Script:**
+  > *"How do we know the AI didn't hallucinate this? Switching over to our Langfuse Observability Dashboard, we see a complete real-time waterfall trace of the execution. We can inspect every SQL query executed against our Neon database, returned sensor rows, parameter extractions, and execution latencies. Everything is 100% deterministic, auditable, and transparent."*
+
+---
+
+### Segment 5: Production Deployment & GitHub Submission (2:30 - 3:00)
+- **Visual On-Screen:**
+  - Switch to **Tab 5 (NitroStack Cloud Dashboard)** showing the live app status `● Live MCP https://continuum-for-soumiths-llm-abusers...`.
+  - Briefly switch to `https://github.com/AnirudhJayan22083/continuum-forge`.
+- **What to Explain:**
+  - Confirm the project is actively deployed on NitroStack Cloud.
+  - Mention official Sample Apps Registry Pull Request **#79** on `nitrocloudofficial/nitrostack`.
+  - Conclude with the impact statement: turning fragile human experience into resilient industrial safety.
+- **Narrator Voiceover Script:**
+  > *"Continuum Forge is actively deployed on NitroStack Cloud, open-sourced on GitHub, and submitted to the official Sample Apps registry under Pull Request #79. It bridges the generational skill gap in manufacturing, turning fragile human experience into resilient, automated industrial safety forever. Thank you!"*
