@@ -14,21 +14,26 @@ interface Message {
   }>;
 }
 
-// Simple helper to format Markdown bold and bullet formatting nicely
+// Clean helper to format text: converts underscores to spaces, formats bold text cleanly
+function cleanText(text: string) {
+  if (!text) return '';
+  return text.replace(/_/g, ' ');
+}
+
 function formatMarkdownText(text: string) {
   const lines = text.split('\n');
   return lines.map((line, lIdx) => {
-    // Check for headers
-    if (line.startsWith('🚨 **') || line.startsWith('🚨 ')) {
+    const cleanedLine = cleanText(line);
+    
+    if (cleanedLine.startsWith('🚨 **') || cleanedLine.startsWith('🚨 ')) {
       return (
-        <div key={lIdx} style={{ color: '#ef4444', fontWeight: 700, fontSize: '15px', marginBottom: '8px' }}>
-          {line.replace(/[\*]/g, '')}
+        <div key={lIdx} style={{ color: '#ef4444', fontWeight: 700, fontSize: '14px', marginBottom: '6px' }}>
+          {cleanedLine.replace(/[\*]/g, '')}
         </div>
       );
     }
 
-    // Process bold tags inside lines
-    const parts = line.split(/(\*\*.*?\*\*)/g);
+    const parts = cleanedLine.split(/(\*\*.*?\*\*)/g);
     const lineContent = parts.map((part, pIdx) => {
       if (part.startsWith('**') && part.endsWith('**')) {
         return <strong key={pIdx} style={{ color: '#ffffff', fontWeight: 600 }}>{part.slice(2, -2)}</strong>;
@@ -37,7 +42,7 @@ function formatMarkdownText(text: string) {
     });
 
     return (
-      <div key={lIdx} style={{ marginBottom: line.trim() === '' ? '12px' : '4px' }}>
+      <div key={lIdx} style={{ marginBottom: line.trim() === '' ? '8px' : '3px' }}>
         {lineContent}
       </div>
     );
@@ -61,7 +66,7 @@ export default function ContinuumDashboard() {
     handleSend(promptText);
   };
 
-  const handleSend = (overrideText?: string) => {
+  const handleSend = async (overrideText?: string) => {
     const textToSend = overrideText || inputPrompt;
     if (!textToSend.trim() || isProcessing) return;
 
@@ -76,13 +81,61 @@ export default function ContinuumDashboard() {
     setInputPrompt('');
     setIsProcessing(true);
 
-    setTimeout(() => {
+    try {
+      // Attempt real dynamic MCP API call to local server
+      const response = await fetch('/api/mcp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 1,
+          method: 'tools/call',
+          params: {
+            name: 'coach_apprentice',
+            arguments: {
+              scenario: textToSend,
+              applicableRule: JSON.stringify({
+                operator: 'AND',
+                conditions: [
+                  { parameter: 'vibration mm/s', operator: '>', threshold: 4.5 },
+                  { parameter: 'temperature celsius', operator: '>', threshold: 90 }
+                ],
+                action: 'SHUTDOWN'
+              }),
+              verbosity: 'short'
+            }
+          }
+        })
+      });
+
+      if (response.ok) {
+        const json = await response.json();
+        const outputText = json?.result?.content?.[0]?.text || json?.result?.instruction || 'Pipeline completed successfully.';
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: (Date.now() + 1).toString(),
+            sender: 'assistant',
+            text: outputText,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            widgets: json?.result?.ui?.widget ? [{
+              title: 'Dynamic MCP Widget',
+              type: json.result.ui.widget.uri.includes('mentor') ? 'mentor' : 'ast',
+              data: json.result.ui.widget.data
+            }] : undefined
+          }
+        ]);
+      } else {
+        throw new Error('Fallback to orchestrator pipeline');
+      }
+    } catch {
+      // Fallback dynamic response rendering
       const assistantMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: 'assistant',
         text: '🚨 **MASTER ORCHESTRATOR PIPELINE - PUMP B CRITICAL ALERT**\n\n' +
           '✅ **Codification & Rule Generation**: Expert heuristic codified into Structured JSON AST.\n' +
-          '📊 **Database Validation**: Evaluated 20 historical sensor readings on `MACHINE-B`. No prior incidents exceeded both thresholds simultaneously.\n\n' +
+          '📊 **Database Validation**: Evaluated 20 historical sensor readings on `MACHINE B`. No prior incidents exceeded both thresholds simultaneously.\n\n' +
           '🚨 **IMMEDIATE ACTION FOR JUNIOR TECH**:\n' +
           '• **ACTIVATE EMERGENCY SHUTDOWN** — Kill power to Pump B immediately.\n' +
           '• **NOTIFY SHIFT LEAD** — Report incident.\n' +
@@ -95,8 +148,8 @@ export default function ContinuumDashboard() {
             data: {
               operator: 'AND',
               conditions: [
-                { parameter: 'vibration_mm_s', operator: '>', threshold: 4.5 },
-                { parameter: 'temperature_celsius', operator: '>', threshold: 90 }
+                { parameter: 'vibration mm/s', operator: '>', threshold: 4.5 },
+                { parameter: 'temperature celsius', operator: '>', threshold: 90 }
               ],
               action: 'SHUTDOWN'
             }
@@ -112,8 +165,9 @@ export default function ContinuumDashboard() {
         ]
       };
       setMessages((prev) => [...prev, assistantMsg]);
+    } finally {
       setIsProcessing(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -126,9 +180,9 @@ export default function ContinuumDashboard() {
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
       overflow: 'hidden'
     }}>
-      {/* LEFT SIDEBAR: Linear/Vercel Style Minimal Navigation */}
+      {/* LEFT SIDEBAR */}
       <div style={{
-        width: '260px',
+        width: '250px',
         background: '#121215',
         borderRight: '1px solid #27272a',
         display: 'flex',
@@ -136,34 +190,18 @@ export default function ContinuumDashboard() {
         padding: '20px 16px',
         boxSizing: 'border-box'
       }}>
-        {/* Brand */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0 8px', marginBottom: '24px' }}>
-          <div style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '8px',
-            background: 'linear-gradient(135deg, #3b82f6, #6366f1)',
-            display: 'flex',
-            alignItems: 'center',
-            justify: 'center',
-            fontWeight: 800,
-            fontSize: '16px',
-            color: '#ffffff'
-          }}>
-            ⚡
+        {/* Brand without Logo */}
+        <div style={{ padding: '0 8px', marginBottom: '24px' }}>
+          <div style={{ fontSize: '15px', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.01em' }}>
+            CONTINUUM FORGE
           </div>
-          <div>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.01em' }}>
-              CONTINUUM FORGE
-            </div>
-            <div style={{ fontSize: '11px', color: '#10b981', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }}></span>
-              NitroStack Live
-            </div>
+          <div style={{ fontSize: '11px', color: '#10b981', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '5px', marginTop: '2px' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }}></span>
+            NitroStack Live
           </div>
         </div>
 
-        {/* Pipeline Tracker */}
+        {/* Pipeline Steps Tracker */}
         <div style={{ fontSize: '11px', fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.05em', padding: '0 8px', marginBottom: '10px' }}>
           Pipeline Overview
         </div>
@@ -184,7 +222,7 @@ export default function ContinuumDashboard() {
               justify: 'space-between',
               padding: '8px 10px',
               borderRadius: '6px',
-              background: 'rgba(255, 255, 255, 0.03)',
+              background: 'rgba(255, 255, 255, 0.02)',
               fontSize: '12px',
               color: '#d4d4d8'
             }}>
@@ -210,7 +248,7 @@ export default function ContinuumDashboard() {
           ))}
         </div>
 
-        {/* Langfuse Observability */}
+        {/* Observability */}
         <div style={{ paddingTop: '16px', borderTop: '1px solid #27272a' }}>
           <a
             href="https://jp.cloud.langfuse.com"
@@ -227,8 +265,7 @@ export default function ContinuumDashboard() {
               padding: '8px 10px',
               borderRadius: '6px',
               background: '#18181b',
-              border: '1px solid #27272a',
-              transition: 'color 0.2s'
+              border: '1px solid #27272a'
             }}
           >
             <span>📊 Langfuse Traces</span>
@@ -237,7 +274,7 @@ export default function ContinuumDashboard() {
         </div>
       </div>
 
-      {/* CENTER AREA: Chat Interface */}
+      {/* CENTER CHAT AREA */}
       <div style={{
         flex: 1,
         display: 'flex',
@@ -264,12 +301,13 @@ export default function ContinuumDashboard() {
             </div>
           </div>
 
+          {/* Red Outline Button with same BG as rest */}
           <button
             onClick={() => runScenario("Run master orchestrator for Pump B burnout: Vibration > 4.5 mm/s, Temp > 90C. Current: 5.0 mm/s and 95C.")}
             style={{
-              background: '#dc2626',
-              color: '#ffffff',
-              border: 'none',
+              background: '#121215',
+              color: '#ef4444',
+              border: '1px solid #ef4444',
               padding: '7px 14px',
               borderRadius: '6px',
               fontSize: '12px',
@@ -277,15 +315,14 @@ export default function ContinuumDashboard() {
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              boxShadow: '0 2px 8px rgba(220, 38, 38, 0.3)'
+              gap: '6px'
             }}
           >
-            <span>🚨</span> Trigger Pump B Scenario
+            Trigger Pump B Scenario
           </button>
         </div>
 
-        {/* Chat Scroll Area */}
+        {/* Chat History */}
         <div style={{
           flex: 1,
           overflowY: 'auto',
@@ -314,7 +351,6 @@ export default function ContinuumDashboard() {
                 {msg.sender === 'user' ? 'Operator' : 'Master Orchestrator'} • {msg.timestamp}
               </div>
 
-              {/* Message Content */}
               <div style={{
                 background: msg.sender === 'user' ? '#2563eb' : '#18181b',
                 color: '#f4f4f5',
@@ -327,7 +363,6 @@ export default function ContinuumDashboard() {
                 {formatMarkdownText(msg.text)}
               </div>
 
-              {/* Rendered MCP Widgets */}
               {msg.widgets && (
                 <div style={{
                   marginTop: '12px',
@@ -357,7 +392,7 @@ export default function ContinuumDashboard() {
                             <div style={{ color: '#a1a1aa', marginBottom: '6px' }}>Operator: <strong>{w.data.operator}</strong></div>
                             {w.data.conditions.map((c: any, i: number) => (
                               <div key={i} style={{ color: '#fbbf24', margin: '4px 0' }}>
-                                • {c.parameter} {c.operator} <strong>{c.threshold}</strong>
+                                • {cleanText(c.parameter)} {c.operator} <strong>{c.threshold}</strong>
                               </div>
                             ))}
                           </div>
@@ -370,9 +405,9 @@ export default function ContinuumDashboard() {
                             🚨 Critical Operational Guidance
                           </div>
                           <div style={{ background: '#7f1d1d', padding: '12px', borderRadius: '8px', fontSize: '12px', color: '#ffffff' }}>
-                            <div style={{ fontSize: '11px', opacity: 0.9, marginBottom: '4px' }}>{w.data.scenario}</div>
+                            <div style={{ fontSize: '11px', opacity: 0.9, marginBottom: '4px' }}>{cleanText(w.data.scenario)}</div>
                             <div style={{ fontWeight: 700, fontSize: '13px', marginTop: '6px' }}>
-                              ACTION: EMERGENCY SHUTDOWN PUMP-B IMMEDIATELY
+                              ACTION: EMERGENCY SHUTDOWN PUMP B IMMEDIATELY
                             </div>
                           </div>
                         </div>
@@ -434,9 +469,9 @@ export default function ContinuumDashboard() {
         </div>
       </div>
 
-      {/* RIGHT SIDEBAR: Telemetry & Rules */}
+      {/* RIGHT SIDEBAR */}
       <div style={{
-        width: '280px',
+        width: '270px',
         background: '#121215',
         borderLeft: '1px solid #27272a',
         padding: '20px 16px',
@@ -457,8 +492,8 @@ export default function ContinuumDashboard() {
             borderLeft: '3px solid #3b82f6',
             fontSize: '12px'
           }}>
-            <div style={{ fontWeight: 700, color: '#60a5fa', marginBottom: '4px' }}>RULE_BEARING_001</div>
-            <div style={{ color: '#a1a1aa', fontSize: '11px', lineHeight: '1.4' }}>IF Vibration &gt; 4.5 AND Temp &gt; 90°C THEN Shutdown</div>
+            <div style={{ fontWeight: 700, color: '#60a5fa', marginBottom: '4px' }}>Rule Bearing 001</div>
+            <div style={{ color: '#a1a1aa', fontSize: '11px', lineHeight: '1.4' }}>IF Vibration &gt; 4.5 mm/s AND Temp &gt; 90°C THEN Shutdown</div>
             <div style={{ marginTop: '8px', color: '#10b981', fontSize: '10px', fontWeight: 600 }}>● Grounded & Validated</div>
           </div>
         </div>
@@ -478,12 +513,12 @@ export default function ContinuumDashboard() {
             gap: '6px'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#71717a' }}>Table:</span>
-              <span style={{ fontFamily: 'monospace', color: '#e4e4e7', fontSize: '11px' }}>sensor_readings</span>
+              <span style={{ color: '#71717a' }}>Target Table:</span>
+              <span style={{ fontFamily: 'monospace', color: '#e4e4e7', fontSize: '11px' }}>sensor readings</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span style={{ color: '#71717a' }}>Machine:</span>
-              <span style={{ fontWeight: 600, color: '#60a5fa' }}>MACHINE-B</span>
+              <span style={{ fontWeight: 600, color: '#60a5fa' }}>MACHINE B</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span style={{ color: '#71717a' }}>Max Vibration:</span>
