@@ -12,6 +12,18 @@ export class ElicitationTools {
     }),
   })
   async interviewExpert(input: any, ctx: ExecutionContext) {
+    if (!input.failureMode || input.failureMode === 'expected value' || input.failureMode.trim() === '') {
+      return {
+        success: false,
+        error: "Insufficient context. Please specify a specific failure mode (e.g., 'thermal-induced-rejection') and expert role (e.g., 'Senior Technician') to generate targeted questions."
+      };
+    }
+    if (!input.expertRole || input.expertRole === 'expected value' || input.expertRole.trim() === '') {
+      return {
+        success: false,
+        error: "Insufficient context. Please specify a specific failure mode (e.g., 'thermal-induced-rejection') and expert role (e.g., 'Senior Technician') to generate targeted questions."
+      };
+    }
     ctx.logger.info(`Starting expert interview session for: ${input.failureMode}`);
     return {
       success: true,

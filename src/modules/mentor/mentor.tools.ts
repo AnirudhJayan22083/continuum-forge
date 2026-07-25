@@ -12,6 +12,19 @@ export class MentorTools {
     }),
   })
   async coachApprentice(input: any, ctx: ExecutionContext) {
+    if (!input.scenario || input.scenario === 'expected value' || input.scenario.trim() === '') {
+      return {
+        success: false,
+        error: "Incomplete scenario. Please provide both the current scenario the junior operator is facing and the applicable rule to base the coaching on."
+      };
+    }
+    if (!input.applicableRule || input.applicableRule === 'expected value' || input.applicableRule.trim() === '') {
+      return {
+        success: false,
+        error: "Incomplete scenario. Please provide both the current scenario the junior operator is facing and the applicable rule to base the coaching on."
+      };
+    }
+
     ctx.logger.info(`Mentoring apprentice on scenario: ${input.scenario}`);
     return {
       success: true,

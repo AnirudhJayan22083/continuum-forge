@@ -13,6 +13,19 @@ export class ValidationTools {
     }),
   })
   async validateHeuristic(input: any, ctx: ExecutionContext) {
+    if (!input.rule || input.rule === 'expected value' || input.rule.trim() === '') {
+      return {
+        success: false,
+        error: "Invalid rule. Please provide a specific manufacturing rule to validate (e.g., 'IF temp > 120 THEN reject')."
+      };
+    }
+    if (!input.datasetUri || input.datasetUri === 'expected value' || input.datasetUri.trim() === '') {
+      return {
+        success: false,
+        error: "Validation requires a dataset. Please provide a dataset URI (e.g., neon://sensor_logs)."
+      };
+    }
+
     ctx.logger.info(`Requested validation for rule: ${input.rule}`);
     
     // Instead of using Gemini locally, we return the payload so the
@@ -21,7 +34,7 @@ export class ValidationTools {
       success: true,
       instruction: `Please act as an expert Data Scientist. Calculate the statistical significance of the following manufacturing rule against the dataset. Provide your reasoning and confidence score in a clear, formatted response.`,
       ruleToValidate: input.rule,
-      datasetContext: input.datasetUri || "No dataset URI provided. Please ask the user for data or validate logically.",
+      datasetContext: input.datasetUri,
       message: 'Payload returned successfully. Waiting for Orchestrator LLM to compute validation.'
     };
   }
