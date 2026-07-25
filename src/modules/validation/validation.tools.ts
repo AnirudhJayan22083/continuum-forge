@@ -13,9 +13,9 @@ export class ValidationTools {
     name: 'validate_heuristic',
     description: 'Validates a manufacturing heuristic mathematically against sensor datasets using an LLM to compute statistical significance.',
     inputSchema: z.object({
-      heuristicId: z.string().describe('The ID of the heuristic'),
+      heuristicId: z.string().optional().describe('The ID of the heuristic'),
       rule: z.string().describe('The tacit rule to validate (e.g. IF temp > 120 THEN reject)'),
-      datasetUri: z.string().describe('URI to the sensor logs')
+      datasetUri: z.string().optional().describe('URI to the sensor logs')
     }),
   })
   async validateHeuristic(input: any, ctx: ExecutionContext) {
