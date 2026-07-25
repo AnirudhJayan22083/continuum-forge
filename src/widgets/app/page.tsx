@@ -25,7 +25,7 @@ function formatMarkdownText(text: string) {
   return lines.map((line, lIdx) => {
     const cleanedLine = cleanText(line);
     
-    if (cleanedLine.startsWith('🚨 **') || cleanedLine.startsWith('🚨 ')) {
+    if (cleanedLine.startsWith('CRITICAL ALERT') || cleanedLine.startsWith('IMMEDIATE ACTION')) {
       return (
         <div key={lIdx} style={{ color: '#ef4444', fontWeight: 700, fontSize: '14px', marginBottom: '6px' }}>
           {cleanedLine.replace(/[\*]/g, '')}
@@ -54,7 +54,7 @@ export default function ContinuumDashboard() {
     {
       id: '1',
       sender: 'assistant',
-      text: '👋 Welcome to **Continuum Forge** — Tacit Knowledge Capture & Transfer Engine.\n\nI can help you codify expert rules of thumb into Structured JSON ASTs, validate them against your Neon PostgreSQL sensor telemetry, and provide instant coaching to junior operators.',
+      text: 'Welcome to **Continuum Forge** — Tacit Knowledge Capture & Transfer Engine.\n\nI can help you codify expert rules of thumb into Structured JSON ASTs, validate them against your Neon PostgreSQL sensor telemetry, and provide instant coaching to junior operators.',
       timestamp: '10:00 AM'
     }
   ]);
@@ -82,7 +82,6 @@ export default function ContinuumDashboard() {
     setIsProcessing(true);
 
     try {
-      // Attempt real dynamic MCP API call to local server
       const response = await fetch('/api/mcp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -126,20 +125,19 @@ export default function ContinuumDashboard() {
           }
         ]);
       } else {
-        throw new Error('Fallback to orchestrator pipeline');
+        throw new Error('Fallback');
       }
     } catch {
-      // Fallback dynamic response rendering
       const assistantMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: 'assistant',
-        text: '🚨 **MASTER ORCHESTRATOR PIPELINE - PUMP B CRITICAL ALERT**\n\n' +
-          '✅ **Codification & Rule Generation**: Expert heuristic codified into Structured JSON AST.\n' +
-          '📊 **Database Validation**: Evaluated 20 historical sensor readings on `MACHINE B`. No prior incidents exceeded both thresholds simultaneously.\n\n' +
-          '🚨 **IMMEDIATE ACTION FOR JUNIOR TECH**:\n' +
-          '• **ACTIVATE EMERGENCY SHUTDOWN** — Kill power to Pump B immediately.\n' +
-          '• **NOTIFY SHIFT LEAD** — Report incident.\n' +
-          '• **LOG READINGS** — Vibration: 5.0 mm/s, Temp: 95°C.',
+        text: 'MASTER ORCHESTRATOR PIPELINE - PUMP B CRITICAL ALERT\n\n' +
+          'Codification & Rule Generation: Expert heuristic codified into Structured JSON AST.\n' +
+          'Database Validation: Evaluated 20 historical sensor readings on MACHINE B. No prior incidents exceeded both thresholds simultaneously.\n\n' +
+          'IMMEDIATE ACTION FOR JUNIOR TECH:\n' +
+          '• ACTIVATE EMERGENCY SHUTDOWN — Kill power to Pump B immediately.\n' +
+          '• NOTIFY SHIFT LEAD — Report incident.\n' +
+          '• LOG READINGS — Vibration: 5.0 mm/s, Temp: 95C.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         widgets: [
           {
@@ -158,7 +156,7 @@ export default function ContinuumDashboard() {
             title: 'Critical Operational Guidance',
             type: 'mentor',
             data: {
-              scenario: 'Vibration: 5.0 mm/s (EXCEEDS 4.5) | Temp: 95°C (EXCEEDS 90°C)',
+              scenario: 'Vibration: 5.0 mm/s (EXCEEDS 4.5) | Temp: 95C (EXCEEDS 90C)',
               verbosity: 'short'
             }
           }
@@ -190,7 +188,7 @@ export default function ContinuumDashboard() {
         padding: '20px 16px',
         boxSizing: 'border-box'
       }}>
-        {/* Brand without Logo */}
+        {/* Brand */}
         <div style={{ padding: '0 8px', marginBottom: '24px' }}>
           <div style={{ fontSize: '15px', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.01em' }}>
             CONTINUUM FORGE
@@ -201,7 +199,7 @@ export default function ContinuumDashboard() {
           </div>
         </div>
 
-        {/* Pipeline Steps Tracker */}
+        {/* Pipeline Overview */}
         <div style={{ fontSize: '11px', fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.05em', padding: '0 8px', marginBottom: '10px' }}>
           Pipeline Overview
         </div>
@@ -268,7 +266,7 @@ export default function ContinuumDashboard() {
               border: '1px solid #27272a'
             }}
           >
-            <span>📊 Langfuse Traces</span>
+            <span>Langfuse Traces</span>
             <span style={{ fontSize: '11px' }}>↗</span>
           </a>
         </div>
@@ -302,7 +300,6 @@ export default function ContinuumDashboard() {
             </div>
           </div>
 
-          {/* Red Outline Button shifted right */}
           <button
             onClick={() => runScenario("Run master orchestrator for Pump B burnout: Vibration > 4.5 mm/s, Temp > 90C. Current: 5.0 mm/s and 95C.")}
             style={{
@@ -385,7 +382,7 @@ export default function ContinuumDashboard() {
                         <div>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                             <div style={{ fontSize: '13px', fontWeight: 600, color: '#60a5fa' }}>
-                              ⚡ Structured JSON AST Rule
+                              Structured JSON AST Rule
                             </div>
                             <span style={{ background: '#ef4444', color: '#fff', fontSize: '10px', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
                               {w.data.action}
@@ -405,7 +402,7 @@ export default function ContinuumDashboard() {
                       {w.type === 'mentor' && (
                         <div>
                           <div style={{ fontSize: '13px', fontWeight: 600, color: '#fca5a5', marginBottom: '8px' }}>
-                            🚨 Critical Operational Guidance
+                            Critical Operational Guidance
                           </div>
                           <div style={{ background: '#7f1d1d', padding: '12px', borderRadius: '8px', fontSize: '12px', color: '#ffffff' }}>
                             <div style={{ fontSize: '11px', opacity: 0.9, marginBottom: '4px' }}>{cleanText(w.data.scenario)}</div>
@@ -424,7 +421,7 @@ export default function ContinuumDashboard() {
 
           {isProcessing && (
             <div style={{ color: '#60a5fa', fontSize: '12px', fontStyle: 'italic', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span>⚡</span> Executing master orchestrator pipeline...
+              Executing master orchestrator pipeline...
             </div>
           )}
         </div>
@@ -496,8 +493,8 @@ export default function ContinuumDashboard() {
             fontSize: '12px'
           }}>
             <div style={{ fontWeight: 700, color: '#60a5fa', marginBottom: '4px' }}>Rule Bearing 001</div>
-            <div style={{ color: '#a1a1aa', fontSize: '11px', lineHeight: '1.4' }}>IF Vibration &gt; 4.5 mm/s AND Temp &gt; 90°C THEN Shutdown</div>
-            <div style={{ marginTop: '8px', color: '#10b981', fontSize: '10px', fontWeight: 600 }}>● Grounded & Validated</div>
+            <div style={{ color: '#a1a1aa', fontSize: '11px', lineHeight: '1.4' }}>IF Vibration &gt; 4.5 mm/s AND Temp &gt; 90C THEN Shutdown</div>
+            <div style={{ marginTop: '8px', color: '#10b981', fontSize: '10px', fontWeight: 600 }}>Grounded & Validated</div>
           </div>
         </div>
 
@@ -529,7 +526,7 @@ export default function ContinuumDashboard() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span style={{ color: '#71717a' }}>Max Temp:</span>
-              <span style={{ color: '#fbbf24', fontWeight: 600, fontFamily: 'monospace' }}>83.69°C</span>
+              <span style={{ color: '#fbbf24', fontWeight: 600, fontFamily: 'monospace' }}>83.69 C</span>
             </div>
           </div>
         </div>

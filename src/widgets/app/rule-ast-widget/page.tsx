@@ -35,7 +35,7 @@ export default function RuleAstWidget() {
 
   const conditions = rule?.conditions || [
     { parameter: 'vibration (mm/s)', operator: '>', threshold: 4.5 },
-    { parameter: 'temperature (°C)', operator: '>', threshold: 90 }
+    { parameter: 'temperature (C)', operator: '>', threshold: 90 }
   ];
   const operator = rule?.operator || 'AND';
   const action = rule?.action || 'SHUTDOWN';
