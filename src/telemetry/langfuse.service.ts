@@ -1,10 +1,17 @@
 import { Langfuse } from 'langfuse';
 
-const langfuse = new Langfuse({
-  secretKey: process.env.LANGFUSE_SECRET_KEY,
-  publicKey: process.env.LANGFUSE_PUBLIC_KEY,
-  baseUrl: process.env.LANGFUSE_BASE_URL || 'https://cloud.langfuse.com'
-});
+let langfuseClient: Langfuse | null = null;
+
+function getLangfuse() {
+  if (!langfuseClient) {
+    langfuseClient = new Langfuse({
+      secretKey: process.env.LANGFUSE_SECRET_KEY,
+      publicKey: process.env.LANGFUSE_PUBLIC_KEY,
+      baseUrl: process.env.LANGFUSE_BASE_URL || process.env.LANGFUSE_BASEURL || 'https://cloud.langfuse.com'
+    });
+  }
+  return langfuseClient;
+}
 
 /**
  * Wraps a tool execution in a Langfuse trace.
@@ -18,7 +25,8 @@ export async function trackToolExecution<T>(
   input: any, 
   executor: () => Promise<T>
 ): Promise<T> {
-  const trace = langfuse.trace({
+  const lf = getLangfuse();
+  const trace = lf.trace({
     name: toolName,
     metadata: {
       input: input
@@ -38,6 +46,6 @@ export async function trackToolExecution<T>(
     throw error;
   } finally {
     // Flush immediately to ensure traces are sent before process exit if needed
-    await langfuse.flushAsync();
+    await lf.flushAsync();
   }
 }
