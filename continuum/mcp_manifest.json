@@ -1,0 +1,15 @@
+{
+  "name": "continuum",
+  "description": "Tacit Knowledge Capture & Transfer Network - MCP server",
+  "version": "0.1.0",
+  "tools": [
+    "continuum_init",
+    "continuum_interview",
+    "continuum_extract",
+    "continuum_validate",
+    "continuum_explain",
+    "continuum_codify",
+    "continuum_mentor",
+    "continuum_demo"
+  ]
+}
