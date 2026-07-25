@@ -10,6 +10,7 @@
 
 - [Overview](#overview)
 - [What is MCP?](#what-is-mcp)
+- [Application Screenshots & Visual Showcase](#application-screenshots--visual-showcase)
 - [Features](#features)
 - [Repository Structure & File Breakdown](#repository-structure--file-breakdown)
 - [7-Step Knowledge Pipeline](#7-step-knowledge-pipeline)
@@ -51,6 +52,20 @@ The **Model Context Protocol (MCP)** is an open standard that lets AI assistants
 
 This project is one such MCP server. Learn more about building and shipping MCP apps at [nitrostack.ai](https://nitrostack.ai).
 
+## Application Screenshots & Visual Showcase
+
+### 1. Industrial Web Dashboard & Scenario Trigger
+![Industrial Web Dashboard](docs/screenshots/web-dashboard.png)
+
+### 2. Interactive MCP Widgets & Emergency Guidance Cards
+![MCP Widgets Response](docs/screenshots/mcp-widget-response.png)
+
+### 3. Langfuse Cloud Observability & Telemetry Spans
+![Langfuse Observability Traces](docs/screenshots/langfuse-telemetry.png)
+
+### 4. NitroStack Cloud Deployment & Live App Status
+![NitroStack Cloud Deployment](docs/screenshots/nitrostack-deployment.png)
+
 ## Features
 
 - **MCP-Native Architecture**: Works seamlessly with any MCP-compatible client (Claude Desktop, Cursor, NitroStudio).
@@ -69,6 +84,7 @@ This project is one such MCP server. Learn more about building and shipping MCP 
 - `docs/getting-started.md`: Comprehensive local & cloud installation, configuration, and environment setup instructions.
 - `docs/index.md`: Master system architecture document detailing the 7-step pipeline and database schemas.
 - `docs/verification.md`: End-to-end testing procedures, sample prompts, and telemetry inspection guide.
+- `docs/screenshots/`: Visual showcase screenshots for dashboard, widgets, Langfuse telemetry, and deployment.
 
 ### 2. Backend MCP Pipeline Modules (`src/modules/`)
 - `src/modules/elicitation/`: `conduct_interview` tool for processing raw expert grounding transcripts.
