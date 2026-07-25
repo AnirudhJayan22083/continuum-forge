@@ -1,0 +1,20 @@
+[
+    {
+        "id": "TRANS001",
+        "technician": "TECH001",
+        "incident": "LOG0012",
+        "transcript": "Yeah, I've seen this a million times on MACH-A. When the humidity gets really high, like over 80%, and you start hearing that vibration picking up... the bearings are about to go. You gotta replace the bearing immediately."
+    },
+    {
+        "id": "TRANS002",
+        "technician": "TECH002",
+        "incident": "LOG0045",
+        "transcript": "It's weird, but I swear these machines always break down on Tuesdays. Failures definitely increase every Tuesday. You should just do preventative maintenance on Monday nights."
+    },
+    {
+        "id": "TRANS003",
+        "technician": "TECH003",
+        "incident": "LOG0089",
+        "transcript": "For the main motor, if it starts running hot and the belt looks frayed, that's a motor failure waiting to happen. Usually means the alignment is off."
+    }
+]

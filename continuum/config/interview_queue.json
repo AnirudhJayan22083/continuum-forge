@@ -1,0 +1,23 @@
+[
+    {
+        "id": "TECH002",
+        "name": "Alice Jones",
+        "role": "Master Mechanic",
+        "experience_years": 40,
+        "retirement_date": "2024-06-15"
+    },
+    {
+        "id": "TECH001",
+        "name": "Bob Smith",
+        "role": "Senior Technician",
+        "experience_years": 35,
+        "retirement_date": "2024-12-01"
+    },
+    {
+        "id": "TECH003",
+        "name": "Charlie Brown",
+        "role": "Maintenance Lead",
+        "experience_years": 30,
+        "retirement_date": "2025-03-10"
+    }
+]
