@@ -19,7 +19,7 @@ export default function ContinuumDashboard() {
     {
       id: '1',
       sender: 'assistant',
-      text: '👋 Welcome to **Continuum Forge** — Tacit Knowledge Capture & Transfer Engine.\n\nI can help you codify expert rules of thumb, validate them against your Neon PostgreSQL database, and provide instant coaching to junior operators.',
+      text: '👋 Welcome to **Continuum Forge** — Tacit Knowledge Capture & Transfer Engine.\n\nI can help you codify expert rules of thumb into Structured JSON ASTs, validate them against your Neon PostgreSQL sensor telemetry, and provide instant coaching to junior operators.',
       timestamp: '10:00 AM'
     }
   ]);
@@ -52,8 +52,8 @@ export default function ContinuumDashboard() {
         id: (Date.now() + 1).toString(),
         sender: 'assistant',
         text: '🚨 **MASTER ORCHESTRATOR PIPELINE - PUMP B CRITICAL ALERT**\n\n' +
-          '✅ **Codification & Rule Generation**: Expert rule codified into Structured JSON AST.\n' +
-          '📊 **Database Validation**: Checked 20 historical readings on `MACHINE-B`. No prior incidents exceeded both thresholds simultaneously.\n\n' +
+          '✅ **Codification & Rule Generation**: Expert heuristic codified into Structured JSON AST.\n' +
+          '📊 **Database Validation**: Evaluated 20 historical sensor readings on `MACHINE-B`. No prior incidents exceeded both thresholds simultaneously.\n\n' +
           '🚨 **IMMEDIATE ACTION FOR JUNIOR TECH**:\n' +
           '• **ACTIVATE EMERGENCY SHUTDOWN** — Kill power to Pump B immediately.\n' +
           '• **NOTIFY SHIFT LEAD** — Report incident.\n' +
@@ -76,7 +76,7 @@ export default function ContinuumDashboard() {
             title: 'Critical Operational Guidance',
             type: 'mentor',
             data: {
-              scenario: 'Vibration: 5.0 mm/s (EXCEEDS 4.5) | Temp: 95°C (EXCEEDS 90)',
+              scenario: 'Vibration: 5.0 mm/s (EXCEEDS 4.5) | Temp: 95°C (EXCEEDS 90°C)',
               verbosity: 'short'
             }
           }
@@ -92,83 +92,99 @@ export default function ContinuumDashboard() {
       display: 'flex',
       height: '100vh',
       width: '100vw',
-      background: '#090d16',
-      color: '#f3f4f6',
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      background: 'linear-gradient(135deg, #090d16 0%, #0f172a 100%)',
+      color: '#f8fafc',
+      fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
       overflow: 'hidden'
     }}>
       {/* LEFT SIDEBAR: Pipeline & System Navigation */}
       <div style={{
-        width: '280px',
-        background: '#111827',
-        borderRight: '1px solid #1f2937',
+        width: '300px',
+        background: 'rgba(15, 23, 42, 0.75)',
+        backdropFilter: 'blur(16px)',
+        borderRight: '1px solid rgba(255, 255, 255, 0.08)',
         display: 'flex',
         flexDirection: 'column',
-        padding: '20px',
+        padding: '24px',
         boxSizing: 'border-box'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
+        {/* Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
           <div style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '10px',
-            background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+            width: '42px',
+            height: '42px',
+            borderRadius: '12px',
+            background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
             display: 'flex',
             alignItems: 'center',
             justify: 'center',
             fontWeight: 800,
-            fontSize: '18px'
+            fontSize: '22px',
+            boxShadow: '0 8px 16px rgba(59, 130, 246, 0.3)'
           }}>
             ⚡
           </div>
           <div>
-            <h1 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#ffffff' }}>CONTINUUM FORGE</h1>
-            <span style={{ fontSize: '11px', color: '#10b981', fontWeight: 600 }}>● NitroStack MCP Active</span>
+            <h1 style={{ margin: 0, fontSize: '17px', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
+              CONTINUUM FORGE
+            </h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', display: 'inline-block', boxShadow: '0 0 8px #10b981' }}></span>
+              <span style={{ fontSize: '11px', color: '#34d399', fontWeight: 600 }}>NitroStack MCP Live</span>
+            </div>
           </div>
         </div>
 
-        <div style={{ fontSize: '11px', fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', marginBottom: '12px' }}>
+        {/* Pipeline Steps Tracker */}
+        <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '14px' }}>
           7-Step Knowledge Pipeline
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
           {[
-            { step: '1', title: 'Grounding Interview', active: true },
-            { step: '2', title: 'Codification (JSON AST)', active: true },
-            { step: '3', title: 'Parameter Extraction', active: true },
-            { step: '4', title: 'Database Validation', active: true },
-            { step: '5', title: 'Explainability Engine', active: true },
-            { step: '6', title: 'Rule Codification', active: true },
-            { step: '7', title: 'Mentor Coaching', active: true }
+            { step: '1', title: 'Grounding Interview', status: 'ACTIVE' },
+            { step: '2', title: 'Codification (JSON AST)', status: 'ACTIVE' },
+            { step: '3', title: 'Parameter Extraction', status: 'ACTIVE' },
+            { step: '4', title: 'Database Validation', status: 'ACTIVE' },
+            { step: '5', title: 'Explainability Engine', status: 'ACTIVE' },
+            { step: '6', title: 'Rule Codification', status: 'ACTIVE' },
+            { step: '7', title: 'Mentor Coaching', status: 'ACTIVE' }
           ].map((item) => (
             <div key={item.step} style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
-              padding: '8px 12px',
-              borderRadius: '8px',
-              background: item.active ? 'rgba(59, 130, 246, 0.1)' : 'transparent',
-              border: item.active ? '1px solid rgba(59, 130, 246, 0.2)' : 'none',
-              fontSize: '13px'
+              justify: 'space-between',
+              padding: '10px 14px',
+              borderRadius: '10px',
+              background: 'rgba(30, 41, 59, 0.4)',
+              border: '1px solid rgba(255, 255, 255, 0.05)',
+              fontSize: '13px',
+              transition: 'all 0.2s ease'
             }}>
-              <span style={{
-                width: '20px',
-                height: '20px',
-                borderRadius: '50%',
-                background: '#3b82f6',
-                color: '#fff',
-                fontSize: '11px',
-                display: 'flex',
-                alignItems: 'center',
-                justify: 'center',
-                fontWeight: 700
-              }}>{item.step}</span>
-              <span style={{ color: '#e5e7eb' }}>{item.title}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{
+                  width: '22px',
+                  height: '22px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #2563eb, #3b82f6)',
+                  color: '#fff',
+                  fontSize: '11px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justify: 'center',
+                  fontWeight: 700
+                }}>{item.step}</span>
+                <span style={{ color: '#e2e8f0', fontWeight: 500 }}>{item.title}</span>
+              </div>
+              <span style={{ fontSize: '10px', fontWeight: 700, color: '#34d399', background: 'rgba(16, 185, 129, 0.1)', padding: '2px 6px', borderRadius: '4px' }}>
+                {item.status}
+              </span>
             </div>
           ))}
         </div>
 
-        <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid #1f2937' }}>
-          <div style={{ fontSize: '11px', fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', marginBottom: '8px' }}>
+        {/* Observability Box */}
+        <div style={{ marginTop: 'auto', paddingTop: '18px', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+          <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '10px' }}>
             Observability Telemetry
           </div>
           <a
@@ -178,56 +194,66 @@ export default function ContinuumDashboard() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              color: '#60a5fa',
+              justify: 'space-between',
+              color: '#93c5fd',
               textDecoration: 'none',
               fontSize: '13px',
-              fontWeight: 500,
-              padding: '8px 12px',
-              background: '#1f2937',
-              borderRadius: '8px'
+              fontWeight: 600,
+              padding: '12px 16px',
+              background: 'rgba(30, 41, 59, 0.6)',
+              borderRadius: '12px',
+              border: '1px solid rgba(147, 197, 253, 0.2)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
             }}
           >
-            📊 View Langfuse Traces ↗
+            <span>📊 Langfuse Traces</span>
+            <span style={{ fontSize: '14px' }}>↗</span>
           </a>
         </div>
       </div>
 
-      {/* CENTER AREA: Chat Interface with Inline Widgets */}
+      {/* CENTER AREA: Main Chat Dashboard */}
       <div style={{
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        background: '#0b1120',
+        background: 'rgba(11, 17, 32, 0.95)',
         position: 'relative'
       }}>
-        {/* Top Header */}
+        {/* Top Navigation Bar */}
         <div style={{
-          height: '60px',
-          borderBottom: '1px solid #1f2937',
+          height: '70px',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
           display: 'flex',
           alignItems: 'center',
           justify: 'space-between',
-          padding: '0 24px',
-          background: '#090d16'
+          padding: '0 28px',
+          background: 'rgba(15, 23, 42, 0.8)',
+          backdropFilter: 'blur(12px)'
         }}>
           <div>
-            <h2 style={{ margin: 0, fontSize: '15px', fontWeight: 600 }}>Master Orchestrator Assistant</h2>
-            <span style={{ fontSize: '12px', color: '#9ca3af' }}>Pump-B Motor Burnout Real-Time Telemetry & Rule Engine</span>
+            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#ffffff' }}>
+              Master Orchestrator Assistant
+            </h2>
+            <span style={{ fontSize: '12px', color: '#94a3b8' }}>
+              Industrial Telemetry & Expert Rules Engine
+            </span>
           </div>
 
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', gap: '10px' }}>
             <button
               onClick={() => runScenario("Run master orchestrator for Pump B burnout: Vibration > 4.5 mm/s, Temp > 90C. Current: 5.0 mm/s and 95C.")}
               style={{
-                background: '#dc2626',
-                color: '#fff',
+                background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                color: '#ffffff',
                 border: 'none',
-                padding: '6px 14px',
-                borderRadius: '8px',
-                fontSize: '12px',
-                fontWeight: 600,
-                cursor: 'pointer'
+                padding: '10px 18px',
+                borderRadius: '10px',
+                fontSize: '13px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(239, 68, 68, 0.4)',
+                transition: 'transform 0.1s ease'
               }}
             >
               🚨 Trigger Pump B Scenario
@@ -235,14 +261,14 @@ export default function ContinuumDashboard() {
           </div>
         </div>
 
-        {/* Message Log */}
+        {/* Chat History */}
         <div style={{
           flex: 1,
           overflowY: 'auto',
-          padding: '24px',
+          padding: '28px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '20px'
+          gap: '24px'
         }}>
           {messages.map((msg) => (
             <div
@@ -251,30 +277,37 @@ export default function ContinuumDashboard() {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-                maxWidth: '85%',
+                maxWidth: '82%',
                 alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start'
               }}
             >
               <div style={{
                 fontSize: '11px',
-                color: '#6b7280',
-                marginBottom: '4px',
-                padding: '0 4px'
+                color: '#64748b',
+                marginBottom: '6px',
+                padding: '0 4px',
+                fontWeight: 600
               }}>
-                {msg.sender === 'user' ? 'Junior Tech / Operator' : 'Master Orchestrator AI'} • {msg.timestamp}
+                {msg.sender === 'user' ? 'Operator' : 'Master Orchestrator AI'} • {msg.timestamp}
               </div>
 
+              {/* Message Bubble */}
               <div style={{
-                background: msg.sender === 'user' ? '#2563eb' : '#1e293b',
+                background: msg.sender === 'user'
+                  ? 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)'
+                  : 'rgba(30, 41, 59, 0.8)',
                 color: '#ffffff',
-                padding: '14px 18px',
-                borderRadius: '16px',
-                borderTopRightRadius: msg.sender === 'user' ? '4px' : '16px',
-                borderTopLeftRadius: msg.sender === 'assistant' ? '4px' : '16px',
+                padding: '16px 20px',
+                borderRadius: '18px',
+                borderTopRightRadius: msg.sender === 'user' ? '4px' : '18px',
+                borderTopLeftRadius: msg.sender === 'assistant' ? '4px' : '18px',
                 fontSize: '14px',
-                lineHeight: '1.6',
+                lineHeight: '1.65',
                 whiteSpace: 'pre-wrap',
-                boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)'
+                border: msg.sender === 'assistant' ? '1px solid rgba(255, 255, 255, 0.08)' : 'none',
+                boxShadow: msg.sender === 'user'
+                  ? '0 6px 16px rgba(37, 99, 235, 0.3)'
+                  : '0 6px 16px rgba(0, 0, 0, 0.2)'
               }}>
                 {msg.text}
               </div>
@@ -282,31 +315,35 @@ export default function ContinuumDashboard() {
               {/* Inline Rendered MCP Widgets */}
               {msg.widgets && (
                 <div style={{
-                  marginTop: '12px',
+                  marginTop: '16px',
                   width: '100%',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '12px'
+                  gap: '16px'
                 }}>
                   {msg.widgets.map((w, idx) => (
                     <div key={idx} style={{
-                      background: '#0f172a',
-                      borderRadius: '16px',
-                      padding: '16px',
-                      border: '1px solid #334155'
+                      background: 'linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%)',
+                      borderRadius: '18px',
+                      padding: '20px',
+                      border: '1px solid rgba(99, 102, 241, 0.3)',
+                      boxShadow: '0 12px 24px -6px rgba(0, 0, 0, 0.4)'
                     }}>
                       {w.type === 'ast' && (
                         <div>
-                          <div style={{ fontSize: '13px', fontWeight: 700, color: '#60a5fa', marginBottom: '8px' }}>
-                            ⚡ Structured JSON AST Rule
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                            <div style={{ fontSize: '14px', fontWeight: 700, color: '#93c5fd' }}>
+                              ⚡ Structured JSON AST Rule
+                            </div>
+                            <span style={{ background: '#ef4444', color: '#fff', fontSize: '11px', padding: '3px 10px', borderRadius: '12px', fontWeight: 800 }}>
+                              {w.data.action}
+                            </span>
                           </div>
-                          <div style={{ background: '#1e293b', padding: '12px', borderRadius: '8px', fontFamily: 'monospace', fontSize: '12px' }}>
-                            <div><strong>Operator:</strong> {w.data.operator}</div>
-                            <div><strong>Action:</strong> <span style={{ color: '#ef4444' }}>{w.data.action}</span></div>
-                            <div style={{ marginTop: '6px' }}><strong>Conditions:</strong></div>
+                          <div style={{ background: 'rgba(15, 23, 42, 0.8)', padding: '14px', borderRadius: '12px', fontFamily: "'JetBrains Mono', monospace", fontSize: '13px' }}>
+                            <div style={{ color: '#a5b4fc', marginBottom: '8px' }}>Operator: <strong>{w.data.operator}</strong></div>
                             {w.data.conditions.map((c: any, i: number) => (
-                              <div key={i} style={{ paddingLeft: '12px', color: '#fbbf24' }}>
-                                • {c.parameter} {c.operator} {c.threshold}
+                              <div key={i} style={{ color: '#fbbf24', margin: '4px 0' }}>
+                                • {c.parameter} {c.operator} <strong>{c.threshold}</strong>
                               </div>
                             ))}
                           </div>
@@ -315,12 +352,14 @@ export default function ContinuumDashboard() {
 
                       {w.type === 'mentor' && (
                         <div>
-                          <div style={{ fontSize: '13px', fontWeight: 700, color: '#ef4444', marginBottom: '8px' }}>
-                            🚨 Emergency Guidance Card
+                          <div style={{ fontSize: '14px', fontWeight: 700, color: '#fca5a5', marginBottom: '10px' }}>
+                            🚨 Critical Operational Guidance
                           </div>
-                          <div style={{ background: '#7f1d1d', padding: '12px', borderRadius: '8px', fontSize: '12px', color: '#fef2f2' }}>
-                            <div><strong>STATUS:</strong> {w.data.scenario}</div>
-                            <div style={{ marginTop: '6px', fontWeight: 700 }}>ACTION: EMERGENCY SHUTDOWN PUMP B IMMEDIATELY</div>
+                          <div style={{ background: 'linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%)', padding: '16px', borderRadius: '12px', fontSize: '13px', color: '#ffffff' }}>
+                            <div style={{ fontSize: '12px', opacity: 0.9, marginBottom: '6px' }}>{w.data.scenario}</div>
+                            <div style={{ fontWeight: 800, fontSize: '14px', marginTop: '8px' }}>
+                              ACTION: EMERGENCY SHUTDOWN PUMP-B IMMEDIATELY
+                            </div>
                           </div>
                         </div>
                       )}
@@ -332,131 +371,138 @@ export default function ContinuumDashboard() {
           ))}
 
           {isProcessing && (
-            <div style={{ color: '#60a5fa', fontSize: '13px', fontStyle: 'italic' }}>
-              ⚡ Master Orchestrator executing 7-step pipeline...
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#60a5fa', fontSize: '13px', fontWeight: 600 }}>
+              <span style={{ animation: 'spin 1s linear infinite' }}>⚡</span>
+              Master Orchestrator executing 7-step tacit knowledge pipeline...
             </div>
           )}
         </div>
 
-        {/* Input Bar */}
+        {/* Bottom Input Console */}
         <div style={{
-          padding: '16px 24px',
-          borderTop: '1px solid #1f2937',
-          background: '#090d16',
+          padding: '20px 28px',
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+          background: 'rgba(15, 23, 42, 0.8)',
+          backdropFilter: 'blur(12px)',
           display: 'flex',
-          gap: '12px'
+          gap: '14px'
         }}>
           <input
             type="text"
             value={inputPrompt}
             onChange={(e) => setInputPrompt(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Type your scenario or ask Master Orchestrator..."
+            placeholder="Ask Master Orchestrator or run pipeline..."
             style={{
               flex: 1,
-              background: '#1f2937',
-              border: '1px solid #374151',
-              borderRadius: '10px',
-              padding: '12px 16px',
+              background: 'rgba(30, 41, 59, 0.6)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '12px',
+              padding: '14px 20px',
               color: '#ffffff',
               fontSize: '14px',
-              outline: 'none'
+              outline: 'none',
+              fontFamily: 'inherit'
             }}
           />
           <button
             onClick={() => handleSend()}
             style={{
-              background: '#2563eb',
+              background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
               color: '#ffffff',
               border: 'none',
-              padding: '12px 24px',
-              borderRadius: '10px',
-              fontWeight: 600,
+              padding: '14px 28px',
+              borderRadius: '12px',
+              fontWeight: 700,
               cursor: 'pointer',
-              fontSize: '14px'
+              fontSize: '14px',
+              boxShadow: '0 4px 14px rgba(37, 99, 235, 0.4)'
             }}
           >
-            Send
+            Send Prompt
           </button>
         </div>
       </div>
 
-      {/* RIGHT SIDEBAR: Live Rules & Telemetry Overview */}
+      {/* RIGHT SIDEBAR: Tacit Rules & DB Metrics */}
       <div style={{
-        width: '320px',
-        background: '#111827',
-        borderLeft: '1px solid #1f2937',
-        padding: '20px',
+        width: '340px',
+        background: 'rgba(15, 23, 42, 0.75)',
+        backdropFilter: 'blur(16px)',
+        borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
+        padding: '24px',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        gap: '20px'
+        gap: '24px'
       }}>
         <div>
-          <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: 700, color: '#f3f4f6' }}>
+          <h3 style={{ margin: '0 0 14px 0', fontSize: '14px', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.01em' }}>
             📜 Active Tacit Rule Registry
           </h3>
           <div style={{
-            background: '#1f2937',
-            padding: '12px',
-            borderRadius: '10px',
+            background: 'rgba(30, 41, 59, 0.6)',
+            padding: '14px',
+            borderRadius: '14px',
             borderLeft: '4px solid #3b82f6',
+            border: '1px solid rgba(255, 255, 255, 0.06)',
             fontSize: '12px'
           }}>
-            <div style={{ fontWeight: 700, color: '#60a5fa', marginBottom: '4px' }}>RULE_BEARING_001</div>
-            <div style={{ color: '#d1d5db' }}>IF Vibration &gt; 4.5 mm/s AND Temp &gt; 90°C THEN Shutdown</div>
-            <div style={{ marginTop: '8px', color: '#10b981', fontWeight: 600 }}>Status: Grounded & Validated</div>
+            <div style={{ fontWeight: 800, color: '#93c5fd', marginBottom: '4px' }}>RULE_BEARING_001</div>
+            <div style={{ color: '#cbd5e1', lineHeight: '1.4' }}>IF Vibration &gt; 4.5 mm/s AND Temp &gt; 90°C THEN Shutdown</div>
+            <div style={{ marginTop: '10px', color: '#34d399', fontWeight: 700 }}>● Grounded & Validated</div>
           </div>
         </div>
 
         <div>
-          <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: 700, color: '#f3f4f6' }}>
-            🗄️ Neon PostgreSQL Status
+          <h3 style={{ margin: '0 0 14px 0', fontSize: '14px', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.01em' }}>
+            🗄️ Neon PostgreSQL Telemetry
           </h3>
           <div style={{
-            background: '#1f2937',
-            padding: '12px',
-            borderRadius: '10px',
+            background: 'rgba(30, 41, 59, 0.6)',
+            padding: '16px',
+            borderRadius: '14px',
+            border: '1px solid rgba(255, 255, 255, 0.06)',
             fontSize: '12px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '6px'
+            gap: '8px'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#9ca3af' }}>Table:</span>
-              <span style={{ fontFamily: 'monospace' }}>sensor_readings</span>
+              <span style={{ color: '#94a3b8' }}>Target Table:</span>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", color: '#e2e8f0' }}>sensor_readings</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#9ca3af' }}>Machine:</span>
-              <span style={{ fontWeight: 600, color: '#3b82f6' }}>MACHINE-B</span>
+              <span style={{ color: '#94a3b8' }}>Equipment ID:</span>
+              <span style={{ fontWeight: 700, color: '#60a5fa' }}>MACHINE-B</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#9ca3af' }}>Max Recorded Vibration:</span>
-              <span style={{ color: '#f59e0b', fontWeight: 600 }}>3.32 mm/s</span>
+              <span style={{ color: '#94a3b8' }}>Max Recorded Vibration:</span>
+              <span style={{ color: '#fbbf24', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>3.32 mm/s</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#9ca3af' }}>Max Recorded Temp:</span>
-              <span style={{ color: '#f59e0b', fontWeight: 600 }}>83.69°C</span>
+              <span style={{ color: '#94a3b8' }}>Max Recorded Temp:</span>
+              <span style={{ color: '#fbbf24', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>83.69°C</span>
             </div>
           </div>
         </div>
 
         <div>
-          <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: 700, color: '#f3f4f6' }}>
-            ⚡ Express / NitroStack Services
+          <h3 style={{ margin: '0 0 14px 0', fontSize: '14px', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.01em' }}>
+            ⚡ Server Transports
           </h3>
           <div style={{
-            background: '#1f2937',
-            padding: '12px',
-            borderRadius: '10px',
+            background: 'rgba(30, 41, 59, 0.6)',
+            padding: '14px',
+            borderRadius: '14px',
+            border: '1px solid rgba(255, 255, 255, 0.06)',
             fontSize: '12px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '6px'
+            gap: '8px'
           }}>
-            <div><strong>Streamable MCP:</strong> <code>http://localhost:3000/mcp</code></div>
-            <div><strong>Legacy SSE:</strong> <code>http://localhost:3000/sse</code></div>
-            <div><strong>Widgets Endpoint:</strong> <code>http://localhost:3000/widgets</code></div>
+            <div><strong style={{ color: '#a5b4fc' }}>Streamable MCP:</strong> <code style={{ color: '#38bdf8' }}>:3000/mcp</code></div>
+            <div><strong style={{ color: '#a5b4fc' }}>Widgets Bundle:</strong> <code style={{ color: '#38bdf8' }}>:3001</code></div>
           </div>
         </div>
       </div>

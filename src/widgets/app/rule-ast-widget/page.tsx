@@ -21,24 +21,11 @@ export default function RuleAstWidget() {
   const { getToolOutput } = useWidgetSDK();
   const rawData = getToolOutput<RuleAstData>();
 
-  const isDark = theme === 'dark';
-  const bgColor = isDark ? '#111827' : '#ffffff';
-  const textColor = isDark ? '#f9fafb' : '#111827';
-  const cardBg = isDark ? '#1f2937' : '#f3f4f6';
-  const borderColor = isDark ? '#374151' : '#e5e7eb';
-  const badgeBg = isDark ? '#374151' : '#e2e8f0';
-
   let rule: RuleAstData | null = rawData || null;
-
-  // Try parsing rawRule or ruleStr if nested
   if (rawData?.rawRule) {
     rule = typeof rawData.rawRule === 'string' ? JSON.parse(rawData.rawRule) : rawData.rawRule;
   } else if (rawData?.ruleStr) {
-    try {
-      rule = JSON.parse(rawData.ruleStr);
-    } catch {
-      rule = rawData;
-    }
+    try { rule = JSON.parse(rawData.ruleStr); } catch { rule = rawData; }
   }
 
   const conditions = rule?.conditions || [
@@ -50,51 +37,85 @@ export default function RuleAstWidget() {
 
   return (
     <div style={{
-      padding: '20px',
-      background: bgColor,
-      color: textColor,
-      borderRadius: '16px',
-      border: `1px solid ${borderColor}`,
-      boxShadow: '0 10px 15px -3px rgba(0,0,0,0.2)',
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      padding: '24px',
+      background: 'linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%)',
+      color: '#f8fafc',
+      borderRadius: '20px',
+      border: '1px solid rgba(99, 102, 241, 0.25)',
+      boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(99, 102, 241, 0.2)',
+      fontFamily: "'Inter', system-ui, sans-serif",
       width: '100%',
       boxSizing: 'border-box'
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '20px' }}>⚡</span>
-          <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 600, color: '#60a5fa' }}>
-            Structured JSON AST Rule
-          </h3>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            borderRadius: '12px',
+            background: 'linear-gradient(135deg, #3b82f6 0%, #6366f1 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justify: 'center',
+            boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)'
+          }}>
+            <span style={{ fontSize: '20px' }}>⚡</span>
+          </div>
+          <div>
+            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em' }}>
+              Structured JSON AST Rule
+            </h3>
+            <span style={{ fontSize: '12px', color: '#818cf8', fontWeight: 500 }}>Engineered Tacit Rule Representation</span>
+          </div>
         </div>
+
         <span style={{
-          background: '#ef4444',
+          background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
           color: '#ffffff',
-          padding: '4px 10px',
-          borderRadius: '20px',
-          fontSize: '12px',
-          fontWeight: 700,
-          letterSpacing: '0.05em'
+          padding: '6px 14px',
+          borderRadius: '30px',
+          fontSize: '11px',
+          fontWeight: 800,
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          boxShadow: '0 4px 12px rgba(239, 68, 68, 0.4)'
         }}>
           ACTION: {action}
         </span>
       </div>
 
+      {/* AST Content Box */}
       <div style={{
-        background: cardBg,
-        borderRadius: '12px',
-        padding: '16px',
-        border: `1px solid ${borderColor}`
+        background: 'rgba(15, 23, 42, 0.7)',
+        backdropFilter: 'blur(12px)',
+        borderRadius: '14px',
+        padding: '18px',
+        border: '1px solid rgba(255, 255, 255, 0.08)'
       }}>
         <div style={{
-          fontSize: '12px',
-          fontWeight: 600,
-          color: isDark ? '#9ca3af' : '#6b7280',
-          marginBottom: '12px',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em'
+          display: 'flex',
+          alignItems: 'center',
+          justify: 'space-between',
+          marginBottom: '14px',
+          paddingBottom: '10px',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
         }}>
-          Condition Logic ({operator})
+          <span style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            LOGICAL OPERATOR
+          </span>
+          <span style={{
+            background: 'rgba(99, 102, 241, 0.2)',
+            color: '#a5b4fc',
+            border: '1px solid rgba(99, 102, 241, 0.4)',
+            padding: '4px 12px',
+            borderRadius: '8px',
+            fontSize: '12px',
+            fontWeight: 800,
+            fontFamily: "'JetBrains Mono', monospace"
+          }}>
+            {operator}
+          </span>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -103,27 +124,43 @@ export default function RuleAstWidget() {
               display: 'flex',
               alignItems: 'center',
               justify: 'space-between',
-              background: isDark ? '#111827' : '#ffffff',
-              padding: '10px 14px',
-              borderRadius: '8px',
+              background: 'rgba(30, 41, 59, 0.6)',
+              padding: '12px 16px',
+              borderRadius: '10px',
               borderLeft: '4px solid #3b82f6',
-              fontSize: '14px'
+              transition: 'transform 0.2s ease, border-color 0.2s ease'
             }}>
-              <span style={{ fontWeight: 500, fontFamily: 'monospace', color: isDark ? '#93c5fd' : '#2563eb' }}>
-                {cond.parameter}
-              </span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ color: '#64748b', fontSize: '12px' }}>#{idx + 1}</span>
                 <span style={{
-                  background: badgeBg,
-                  padding: '2px 8px',
-                  borderRadius: '6px',
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
+                  fontWeight: 600,
+                  fontFamily: "'JetBrains Mono', monospace",
+                  color: '#93c5fd',
                   fontSize: '13px'
+                }}>
+                  {cond.parameter}
+                </span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{
+                  background: 'rgba(15, 23, 42, 0.9)',
+                  color: '#e2e8f0',
+                  padding: '3px 10px',
+                  borderRadius: '6px',
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontWeight: 700,
+                  fontSize: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
                 }}>
                   {cond.operator}
                 </span>
-                <span style={{ fontWeight: 700, color: '#f59e0b', fontSize: '15px' }}>
+                <span style={{
+                  fontWeight: 700,
+                  color: '#fbbf24',
+                  fontSize: '15px',
+                  fontFamily: "'JetBrains Mono', monospace"
+                }}>
                   {cond.threshold}
                 </span>
               </div>
@@ -132,16 +169,20 @@ export default function RuleAstWidget() {
         </div>
       </div>
 
+      {/* Footer Meta */}
       <div style={{
-        marginTop: '12px',
+        marginTop: '16px',
         display: 'flex',
         alignItems: 'center',
         justify: 'space-between',
-        fontSize: '12px',
-        color: isDark ? '#9ca3af' : '#6b7280'
+        fontSize: '11px',
+        color: '#64748b'
       }}>
-        <span>Grounded Tacit Rule</span>
-        <span style={{ color: '#10b981', fontWeight: 600 }}>Verified by AST Engine</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }}></span>
+          Grounded Tacit Knowledge Rule
+        </span>
+        <span style={{ color: '#818cf8', fontWeight: 600 }}>Validated against Neon DB</span>
       </div>
     </div>
   );
