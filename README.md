@@ -95,7 +95,6 @@ This project is one such MCP server. Learn more about building and shipping MCP 
 ## Repository Structure & File Breakdown
 
 ### 1. Documentation (`docs/`)
-- `docs/demo-script.md`: 3-minute video presentation transcript, timestamp breakdown (0:00 - 3:00), and speaker voiceover script.
 - `docs/submission-checklist.md`: Official hackathon verification, platform rules audit, and environment variable checklist.
 - `docs/getting-started.md`: Comprehensive local & cloud installation, configuration, and environment setup instructions.
 - `docs/index.md`: Master system architecture document detailing the 7-step pipeline and database schemas.
